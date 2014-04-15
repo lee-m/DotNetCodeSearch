@@ -10,6 +10,7 @@
   <script src="/javascripts/jquery.min.js"></script>
   <script src="/javascripts/bootstrap.min.js"></script>
   <script src="/javascripts/angular.min.js"></script>
+  <script src="/javascripts/angular-sanitize.min.js"></script>
   <script src="/javascripts/app.js"></script>
 
 </head>
@@ -66,6 +67,8 @@
 
             </div>
 
+            <hr>
+
             <!-- Source code search params -->
             <div class="panel panel-default">
 
@@ -110,6 +113,8 @@
 
             </div>
 
+            <hr>
+
             <div style="text-align:center;">
               <button type="button" class="btn btn-default" ng-click="searchButtonClicked()">Search</button>
             </div>
@@ -126,11 +131,42 @@
         <div class="panel panel-primary">
 
           <div class="panel-heading">
-            <h3 class="panel-title">Search Results</h3>
+            <h3 class="panel-title">Search Results
+              <span class="badge">{{searchResults.total}}</span>
+            </h3>
           </div>
 
           <div class="panel-body">
-            {{data}}
+
+            <div class="alert alert-danger" ng-show="searchError">
+              Remote server is unavailable. Please check and try again.
+            </div>
+
+            <!--
+            <div class="panel panel-default" ng-repeat="hit in searchResults.hits">
+              <div class="panel-body">
+                <p ng-bind-html="hit.highlight.message[0]"></p>
+              </div>
+            </div>
+-->
+            <ul class="list-group" ng-repeat="hit in searchResults.hits">
+              <li class="list-group-item">
+                <strong>Repository: </strong> {{hit._source.repository}}
+              </li>
+              <li class="list-group-item">
+                <strong>Branch: </strong> {{hit._source.branch}}
+              </li>
+              <li class="list-group-item">
+                <strong>Author: </strong> {{hit._source.author}}
+              </li>
+              <li class="list-group-item">
+                <strong>Date: </strong> {{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
+              </li>
+              <li class="list-group-item">
+                <strong>Message: </strong> <p ng-bind-html="hit.highlight.message[0]"></p>
+              </li>
+            </ul>
+
           </div>
 
         </div>
