@@ -1,0 +1,39 @@
+html,
+body,
+.container {
+  height: 90%;
+  background: #8F9DB2;
+}
+
+.container {
+  display: table;
+  width: 98%;
+  padding: 10px 0 0 0;
+  box-sizing: border-box;
+}
+
+header {
+  height: 50px;
+  text-align: center;
+  vertical-align:middle;
+}
+
+h2:first-child {
+  margin-top: 0px;
+  color: white;
+}
+
+.input-group-addon {
+  min-width:100px;
+  text-align:right;
+}
+
+.search-results {
+  border:1px solid;
+  border-radius:5px;
+  background: white;
+}
+
+.panel-title {
+ color: black;
+}

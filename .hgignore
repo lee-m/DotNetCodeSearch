@@ -1,0 +1,7 @@
+syntax: glob
+DotNetCodeSearch.sln.ide/storage.ide
+DotNetCodeSearch.sln.ide/edbres00001.jrs
+DotNetCodeSearch.sln.ide/edb.chk
+DotNetCodeSearch.sln.ide/edbres00002.jrs
+Search.txt
+elasticsearch-1.1.0/*
