@@ -11,45 +11,70 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   //Set to true if attempting to issue a query results in an error
   $scope.searchError = false;
 
-  //'Template' search object for changesets which will highlight the hits in the message
-  $scope.searchTemplate = {
-    query: {
-      simple_query_string: {
-        query: "+critical +error",
-        default_operator: "AND"
-      },
-    },
-    highlight: {
-      pre_tags: ["<strong>"],
-      post_tags: ["</strong>"],
-      fields: {
-        message: {}
-      },
-    },
-    size: 50,
+  //Object to hold changeset search params entered by the user. The fields of thi
+  //object are bound to the various fields in the UI
+  $scope.changesetSearchParams = {
+    repository: '',
+    branch: '',
+    message: '',
+    author: ''
   };
 
-  $scope.searchButtonClicked = function() {
+  //'Template' search object for changesets which will highlight the hits in the message
+  $scope.changesetSearchTemplate = {
+    query: {
+      query_string: {
+        query: '',
+        default_operator: "OR"
+      }
+    },
+    highlight: {
+      pre_tags: ["<font color=\"#FF3333\"><em>"],
+      post_tags: ["</em></font>"],
+      fields: {
+        author: {},
+        branch: {},
+        message: {},
+        repository: {}
+      }
+    },
+    size: 50
+  };
 
-    $http.post('http://localhost:9200/_search', $filter('json')($scope.searchTemplate))
+  $scope.searchButtonClicked = function () {
+
+    var newTemplate = $scope.changesetSearchTemplate;
+    var fieldQueries = [];
+
+    if ($scope.changesetSearchParams.author.length > 0) {
+      fieldQueries.push('author: ' + $scope.changesetSearchParams.author);
+    }
+
+    if ($scope.changesetSearchParams.branch.length > 0) {
+      fieldQueries.push('branch: ' + $scope.changesetSearchParams.branch);
+    }
+
+    if ($scope.changesetSearchParams.message.length > 0) {
+      fieldQueries.push('message: ' + $scope.changesetSearchParams.message);
+    }
+
+    if ($scope.changesetSearchParams.repository.length > 0) {
+      fieldQueries.push('repository: ' + $scope.changesetSearchParams.repository);
+    }
+
+    newTemplate.query.query_string.query = fieldQueries.join(' ');
+
+    $http.post('http://localhost:9200/_search', $filter('json')(newTemplate))
       .success(function (data, status, headers, config) {
         $scope.searchResults = data.hits;
       })
       .error(function (data, status, headers, config) {
         $scope.searchError = true;
       });
+  };
 
-    /*
-    $http({
-        method: "GET",
-        url: 'http://localhost:9200/_cluster/health?pretty=true',
-      })
-      .success(function (data, status, headers, config) {
-        $scope.searchError = false;
-      })
-      .error(function (data, status, headers, config) {
-        $scope.searchError = true;
-      });*/
+  $scope.hasSearchHighlight = function (hit, fieldName) {
+    return hit.highlight.hasOwnProperty(fieldName);
   };
 
 });

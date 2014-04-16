@@ -48,19 +48,19 @@
 
                     <div class="input-group">
                       <span class="input-group-addon">Repository:</span>
-                      <input type="text" class="form-control" placeholder="...">
+                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.repository">
                     </div>
                     <div class="input-group">
                       <span class="input-group-addon">Branch:</span>
-                      <input type="text" class="form-control" placeholder="...">
+                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.branch">
                     </div>
                     <div class="input-group">
                       <span class="input-group-addon bg-info">Message:</span>
-                      <input type="text" class="form-control" placeholder="...">
+                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.message">
                     </div>
                     <div class="input-group">
                       <span class="input-group-addon">Author:</span>
-                      <input type="text" class="form-control" placeholder="...">
+                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.author">
                     </div>
 
                   </div>
@@ -126,6 +126,9 @@
         <!-- Search results -->
         <div class="col-md-8">
 
+          {{debug}}
+          {{changesetSearchParamsauthor}}
+
           <div class="panel panel-primary">
 
             <div class="panel-heading">
@@ -142,25 +145,44 @@
 
               <div class="panel panel-default" ng-repeat="hit in searchResults.hits">
 
+                <!-- Repository -->
                 <div class="row">
                   <div class="col-sm-1 search-result-label"><strong>Repository:</strong></div>
-                  <div class="col-sm-10">{{hit._source.repository}}</div>
+                  <div class="col-sm-10"><span ng-bind-html="hit._source.repository"></span></div>
                 </div>
+
+                <!-- Branch - hidden if no branch is present -->
                 <div class="row" ng-hide="hit._source.branch.length === 0">
                   <div class="col-sm-1 search-result-label"><strong>Branch:</strong></div>
-                  <div class="col-sm-10">{{hit._source.branch}}</div>
+                  <div class="col-sm-10"><span ng-bind-html="hit._source.branch"></span></div>
                 </div>
+
+                <!-- Author -->
                 <div class="row">
                   <div class="col-sm-1 search-result-label"><strong>Author:</strong></div>
-                  <div class="col-sm-10">{{hit._source.author}}</div>
+                  <div class="col-sm-10" ng-show="!hasSearchHighlight(hit, 'author')">
+                    <span ng-bind-html="hit._source.author"></span>
+                  </div>
+                  <div class="col-sm-10" ng-hide="!hasSearchHighlight(hit, 'author')">
+                    <span ng-bind-html="hit.highlight.author[0]"></span>
+                  </div>
                 </div>
+
+                <!-- Changeset date time -->
                 <div class="row">
                   <div class="col-sm-1 search-result-label"><strong>Date:</strong></div>
                   <div class="col-sm-4">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 </div>
+
+                <!-- Commit message -->
                 <div class="row">
                   <div class="col-sm-1 search-result-label"><strong>Message:</strong></div>
-                  <div class="col-sm-10"><p ng-bind-html="hit.highlight.message[0]"></p></div>
+                  <div class="col-sm-10" ng-show="hasSearchHighlight(hit, 'message')">
+                    <span ng-bind-html="hit.highlight.message[0]"></span>
+                  </div>
+                  <div class="col-sm-10" ng-show="!hasSearchHighlight(hit, 'message')">
+                    <span ng-bind-html="hit._source.message"></span>
+                  </div>
                 </div>
 
             </div>
