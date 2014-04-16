@@ -37,3 +37,8 @@ h2:first-child {
 .panel-title {
  color: black;
 }
+
+.search-result-label {
+  min-width: 85px;
+  max-width: 85px;
+}
