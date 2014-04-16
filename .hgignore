@@ -5,3 +5,15 @@ DotNetCodeSearch.sln.ide/edb.chk
 DotNetCodeSearch.sln.ide/edbres00002.jrs
 Search.txt
 elasticsearch-1.1.0/*
+DotNetCodeSearch.Core/bin/Debug/*
+DotNetCodeSearch.Core/obj/*
+DotNetCodeSearch.ElasticSearch/bin/Debug/*
+DotNetCodeSearch.ElasticSearch/obj/*
+DotNetCodeSearch.Mercurial/bin/Debug/*
+DotNetCodeSearch.Mercurial/obj/Debug/*
+DotNetCodeSearch.sln.ide/*
+*.suo
+IndexerApp/bin/Debug/*
+IndexerApp/obj/*
+elasticsearch-net-1.0.0-beta1/*
+pageant.lnk
