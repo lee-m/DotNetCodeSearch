@@ -1,110 +1,66 @@
 <!DOCTYPE html>
 <html ng-app="codeSearch">
 
-  <head>
-    <title>Mercurial Code Search</title>
+<head>
+  <title>Mercurial Code Search</title>
 
-    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
 
-    <script src="/javascripts/jquery.min.js"></script>
-    <script src="/javascripts/bootstrap.min.js"></script>
-    <script src="/javascripts/angular.min.js"></script>
-    <script src="/javascripts/angular-sanitize.min.js"></script>
-    <script src="/javascripts/app.js"></script>
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <script src="/javascripts/angular.min.js"></script>
+  <script src="/javascripts/angular-sanitize.min.js"></script>
+  <script src="/javascripts/app.js"></script>
 
-  </head>
+</head>
 
-  <body ng-controller="CodeSearchController" class="bg-default">
+<body ng-controller="CodeSearchController" class="bg-default">
 
-    <header class="bg-primary">
-      <h2>Mercurial Search</h2>
-    </header>
+  <header class="bg-primary">
+    <h2>Mercurial Search</h2>
+  </header>
 
-    <div class="container">
+  <div class="container">
 
-      <div class="row">
+    <div class="row">
 
-        <div class="col-md-4">
+      <div class="col-md-4">
 
-          <div class="panel panel-primary">
-            <ul class="nav nav-tabs">
-              <li class="active">
-                <a href="#changesets" data-toggle="tab">Search Changesets</a>
-              </li>
-              <li>
-                <a href="#contents" data-toggle="tab">Search File Contents</a>
-              </li>
-            </ul>
+        <div class="panel panel-primary">
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a href="#changesets" data-toggle="tab">Search Changesets</a>
+            </li>
+            <li>
+              <a href="#contents" data-toggle="tab">Search File Contents</a>
+            </li>
+          </ul>
 
-            <div class="tab-content">
+          <div class="tab-content">
 
-              <!-- Changesets search params tab contents -->
-              <div class="tab-pane active" id="changesets">
+            <!-- Changesets search params tab contents -->
+            <div class="tab-pane active" id="changesets">
 
-                <div class="panel panel-default">
+              <div class="panel panel-default">
 
-                  <div class="panel-body">
+                <div class="panel-body">
 
-                    <div class="input-group">
-                      <span class="input-group-addon">Repository:</span>
-                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.repository">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon">Branch:</span>
-                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.branch">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Message:</span>
-                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.message">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon">Author:</span>
-                      <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.author">
-                    </div>
-
+                  <div class="input-group">
+                    <span class="input-group-addon">Repository:</span>
+                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.repository">
                   </div>
-
-                </div>
-
-              </div>
-
-              <!-- Contents search params tab contents -->
-              <div class="tab-pane" id="contents">
-
-                <div class="panel panel-default">
-
-                  <div class="panel-body">
-
-                    <div class="input-group">
-                      <span class="input-group-addon">Repository:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon">Branch:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Types:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Enums:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Functions:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Attributes:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon bg-info">Comments:</span>
-                      <input type="text" class="form-control" placeholder="...">
-                    </div>
-
+                  <div class="input-group">
+                    <span class="input-group-addon">Branch:</span>
+                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.branch">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Message:</span>
+                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.message">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">Author:</span>
+                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.author">
                   </div>
 
                 </div>
@@ -113,79 +69,116 @@
 
             </div>
 
-            <div style="text-align:center;">
-              <button type="button" class="btn btn-default" ng-click="searchButtonClicked()">Search</button>
-            </div>
+            <!-- Contents search params tab contents -->
+            <div class="tab-pane" id="contents">
 
-            &nbsp;
+              <div class="panel panel-default">
+
+                <div class="panel-body">
+
+                  <div class="input-group">
+                    <span class="input-group-addon">Repository:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">Branch:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Types:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Enums:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Functions:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Attributes:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon bg-info">Comments:</span>
+                    <input type="text" class="form-control" placeholder="...">
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
+          <div style="text-align:center;">
+            <button type="button" class="btn btn-default" ng-click="searchButtonClicked()">Search</button>
+          </div>
+
+          &nbsp;
+
         </div>
 
-        <!-- Search results -->
-        <div class="col-md-8">
+      </div>
 
-          {{debug}}
-          {{changesetSearchParamsauthor}}
+      <!-- Search results -->
+      <div class="col-md-8">
 
-          <div class="panel panel-primary">
+        <div class="panel panel-primary">
 
-            <div class="panel-heading">
-              <h3 class="panel-title">Search Results
-                <span class="badge">{{searchResults.total}}</span>
-              </h3>
-            </div>
+          <div class="panel-heading">
+            <h3 class="panel-title">Search Results
+              <span class="badge">{{searchResults.total}}</span>
+            </h3>
+          </div>
 
-            <div class="panel-body">
+          <div class="alert alert-danger" ng-show="searchError">
+            Remote server is unavailable. Please check and try again.
+          </div>
 
-              <div class="alert alert-danger" ng-show="searchError">
-                Remote server is unavailable. Please check and try again.
+          &nbsp;
+
+          <div ng-repeat="hit in searchResults.hits">
+
+            <dl class="dl-horizontal">
+
+              <dt>Repository:</dt>
+              <dd>
+                <span ng-bind-html="hit._source.repository"></span>
+              </dd>
+
+              <dt>Branch:</dt>
+              <dd>
+                <span ng-bind-html="hit._source.branch"></span>
+              </dd>
+
+              <dt>Author:</dt>
+              <div>
+                <dd ng-show="!hasSearchHighlight(hit, 'author')">
+                  <span ng-bind-html="hit._source.author"></span>
+                </dd>
+                <dd ng-hide="!hasSearchHighlight(hit, 'author')">
+                  <span ng-bind-html="hit.highlight.author[0]"></span>
+                </dd>
               </div>
 
-              <div class="panel panel-default" ng-repeat="hit in searchResults.hits">
+              <dt>Date/Time:</dt>
+              <dd>{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
 
-                <!-- Repository -->
-                <div class="row">
-                  <div class="col-sm-1 search-result-label"><strong>Repository:</strong></div>
-                  <div class="col-sm-10"><span ng-bind-html="hit._source.repository"></span></div>
-                </div>
+              <dt>Message:</dt>
+              <div>
+                <dd ng-show="hasSearchHighlight(hit, 'message')">
+                  <span ng-bind-html="hit.highlight.message[0]"></span>
+                </dd>
+                <dd ng-show="!hasSearchHighlight(hit, 'message')">
+                  <span ng-bind-html="hit._source.message"></span>
+                </dd>
 
-                <!-- Branch - hidden if no branch is present -->
-                <div class="row" ng-hide="hit._source.branch.length === 0">
-                  <div class="col-sm-1 search-result-label"><strong>Branch:</strong></div>
-                  <div class="col-sm-10"><span ng-bind-html="hit._source.branch"></span></div>
-                </div>
+              </div>
 
-                <!-- Author -->
-                <div class="row">
-                  <div class="col-sm-1 search-result-label"><strong>Author:</strong></div>
-                  <div class="col-sm-10" ng-show="!hasSearchHighlight(hit, 'author')">
-                    <span ng-bind-html="hit._source.author"></span>
-                  </div>
-                  <div class="col-sm-10" ng-hide="!hasSearchHighlight(hit, 'author')">
-                    <span ng-bind-html="hit.highlight.author[0]"></span>
-                  </div>
-                </div>
-
-                <!-- Changeset date time -->
-                <div class="row">
-                  <div class="col-sm-1 search-result-label"><strong>Date:</strong></div>
-                  <div class="col-sm-4">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
-                </div>
-
-                <!-- Commit message -->
-                <div class="row">
-                  <div class="col-sm-1 search-result-label"><strong>Message:</strong></div>
-                  <div class="col-sm-10" ng-show="hasSearchHighlight(hit, 'message')">
-                    <span ng-bind-html="hit.highlight.message[0]"></span>
-                  </div>
-                  <div class="col-sm-10" ng-show="!hasSearchHighlight(hit, 'message')">
-                    <span ng-bind-html="hit._source.message"></span>
-                  </div>
-                </div>
-
-            </div>
+            </dl>
 
           </div>
 
@@ -195,6 +188,6 @@
 
     </div>
 
-  </body>
+</body>
 
 </html>
