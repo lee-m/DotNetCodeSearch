@@ -142,8 +142,11 @@
         <div class="panel panel-primary">
 
           <div class="panel-heading">
-            <h3 class="panel-title">Search Results
-              <span class="badge">{{searchResults.total}}</span>
+            <h3 class="panel-title">
+              Search Results
+              <span ng-show="searchResults.total > 0">
+                (showing {{searchResults.hits.length}} of {{searchResults.total}} matches)
+              </span>
             </h3>
           </div>
 
