@@ -48,11 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DotNetCodeSearch.Core\DotNetCodeSearch.Core.csproj">
       <Project>{cb8b6825-6e98-4a06-a61a-7a8d7df1f4a2}</Project>
       <Name>DotNetCodeSearch.Core</Name>

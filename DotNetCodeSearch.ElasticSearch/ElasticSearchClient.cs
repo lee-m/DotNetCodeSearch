@@ -19,6 +19,8 @@ namespace DotNetCodeSearch.ElasticSearch
     /// </summary>
     private ElasticClient mClient;
 
+#region Public Methods
+
     /// <summary>
     /// Initialises the object to point to the specified server with the specified default index.
     /// </summary>
@@ -48,5 +50,20 @@ namespace DotNetCodeSearch.ElasticSearch
     {
       mClient.IndexMany(content);
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Accessor for the client instance.
+    /// </summary>
+    /// <returns></returns>
+    protected ElasticClient Client
+    {
+      get { return mClient; }
+    }
+
+#endregion
   }
 }
