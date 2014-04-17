@@ -23,7 +23,7 @@ namespace DotNetCodeSearch.Core
     public Changeset(string repo, string branch, string revID, string message, string author, DateTime changeDateTime)
     {
       Repository = repo;
-      Branch = branch;
+      Branch = string.IsNullOrEmpty(branch) ? "default" : branch;
       ID = revID;
       Message = message;
       Author = author;
