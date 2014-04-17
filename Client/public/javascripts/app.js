@@ -17,7 +17,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     repository: '',
     branch: '',
     message: '',
-    author: ''
+    author: '',
+    numResults: 25
   };
 
   //'Template' search object for changesets which will highlight the hits in the message
@@ -38,7 +39,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
         repository: {}
       }
     },
-    size: 50
+    size: 0
   };
 
   $scope.searchButtonClicked = function () {
@@ -63,6 +64,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     }
 
     newTemplate.query.query_string.query = fieldQueries.join(' ');
+    newTemplate.size = $scope.changesetSearchParams.numResults;
+
+    $scope.debug = $filter('json')(newTemplate);
 
     $http.post('http://localhost:9200/_search', $filter('json')(newTemplate))
       .success(function (data, status, headers, config) {
