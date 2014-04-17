@@ -1,4 +1,4 @@
-/*global angular*/
+/*global angular,alert*/
 
 //Create the main module and Elasticsearch client
 var codeSearchApp = angular.module('codeSearch', ['ngSanitize']);
@@ -8,10 +8,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
   'use strict';
 
-  //Set to true if attempting to issue a query results in an error
-  $scope.searchError = false;
-
-  //Object to hold changeset search params entered by the user. The fields of thi
+  //Object to hold changeset search params entered by the user. The fields of this
   //object are bound to the various fields in the UI
   $scope.changesetSearchParams = {
     repository: '',
@@ -46,6 +43,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     var newTemplate = $scope.changesetSearchTemplate;
     var fieldQueries = [];
+    var paramsJSON = '';
 
     if ($scope.changesetSearchParams.author.length > 0) {
       fieldQueries.push('author: ' + $scope.changesetSearchParams.author);
@@ -67,13 +65,26 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     newTemplate.size = $scope.changesetSearchParams.numResults;
 
     $scope.debug = $filter('json')(newTemplate);
+    paramsJSON = $filter('json')(newTemplate);
 
-    $http.post('http://localhost:9200/_search', $filter('json')(newTemplate))
+    $http.post('http://localhost:9200/_search', paramsJSON)
       .success(function (data, status, headers, config) {
         $scope.searchResults = data.hits;
       })
       .error(function (data, status, headers, config) {
-        $scope.searchError = true;
+        $scope.queryFailedCallback(paramsJSON);
+      });
+  };
+
+  $scope.queryFailedCallback = function (searchParams) {
+
+    //Executing the query choked so try and get an explanation of why
+    $http.post('http://localhost:9200/_validate/query?explain', searchParams)
+      .success(function (data, status, headers, config) {
+        alert(data.explanations[0].error);
+      })
+      .error(function (data, status, headers, config) {
+        alert('Unknown error execting query. Please check search parameters and try again.');
       });
   };
 
@@ -82,4 +93,3 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   };
 
 });
-
