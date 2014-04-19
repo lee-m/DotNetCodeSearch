@@ -36,6 +36,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
         branch: {},
         message: {
           matched_fields: ["message", "message.plain"],
+          number_of_fragments: 0,
           type: "fvh"
         },
         repository: {}
