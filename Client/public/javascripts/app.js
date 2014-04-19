@@ -99,4 +99,28 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     return hit.highlight.hasOwnProperty(fieldName);
   };
 
+  $scope.getSuggestionsForField = function (partialVal, fieldName) {
+
+    var params = {
+      field_suggestions: {
+        text: partialVal,
+        completion: {
+          field: fieldName
+        }
+      }
+    };
+
+    return $http.post('http://localhost:9200/_suggest', $filter('json')(params)).then(function (res) {
+
+      var suggestions = [];
+
+      angular.forEach(res.data.field_suggestions[0].options, function (item) {
+        suggestions.push(item.text);
+      });
+
+      return suggestions;
+
+    });
+  };
+
 });

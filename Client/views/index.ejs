@@ -38,11 +38,19 @@
 
                   <div class="input-group">
                     <span class="input-group-addon">Repository:</span>
-                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.repository">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="changesetSearchParams.repository"
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">Branch:</span>
-                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.branch">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="changesetSearchParams.branch"
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon bg-info">Message:</span>
@@ -50,7 +58,11 @@
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">Author:</span>
-                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.author">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="changesetSearchParams.author"
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest') | filter:$viewValue">
                   </div>
 
                   <hr>
