@@ -7,10 +7,9 @@
   <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
   <link rel='stylesheet' href='/stylesheets/style.css' />
 
-  <script src="/javascripts/jquery.min.js"></script>
-  <script src="/javascripts/bootstrap.min.js"></script>
   <script src="/javascripts/angular.min.js"></script>
   <script src="/javascripts/angular-sanitize.min.js"></script>
+  <script src="/javascripts/ui-bootstrap.min.js"></script>
   <script src="/javascripts/app.js"></script>
 
 </head>
@@ -29,19 +28,9 @@
 
         <div class="panel panel-primary">
 
-          <ul class="nav nav-tabs">
-            <li class="active">
-              <a href="#changesets" data-toggle="tab">Search Changesets</a>
-            </li>
-            <li>
-              <a href="#contents" data-toggle="tab">Search File Contents</a>
-            </li>
-          </ul>
+          <tabset>
 
-          <div class="tab-content">
-
-            <!-- Changesets search params tab contents -->
-            <div class="tab-pane active" id="changesets">
+            <tab heading="Search Changesets">
 
               <div class="panel panel-default">
 
@@ -75,10 +64,9 @@
 
               </div>
 
-            </div>
+            </tab>
 
-            <!-- Contents search params tab contents -->
-            <div class="tab-pane" id="contents">
+            <tab heading="Search File Contents">
 
               <div class="panel panel-default">
 
@@ -123,9 +111,9 @@
 
               </div>
 
-            </div>
+            </tab>
 
-          </div>
+          </tabset>
 
           <div style="text-align:center;">
             <button type="button" class="btn btn-default" ng-click="searchButtonClicked()">Search</button>
