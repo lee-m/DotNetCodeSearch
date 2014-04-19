@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 using Nest;
 
-namespace DotNetCodeSearch.ElasticSearch
+namespace DotNetCodeSearch.Elasticsearch
 {
   /// <summary>
   /// Base class for handling and creation of a search index.
   /// </summary>
   /// <typeparam name="TContent"></typeparam>
-  public abstract class ElasticSearchClient<TContent> where TContent : class
+  public abstract class ElasticsearchClient<TContent> where TContent : class
   {
     /// <summary>
     /// Client to handle the interaction with the Elasticsearch server.
@@ -26,7 +26,7 @@ namespace DotNetCodeSearch.ElasticSearch
     /// </summary>
     /// <param name="uri">Location of the Elasticsearch server</param>
     /// <param name="indexName">Name of the default index to use for this instance.</param>
-    public ElasticSearchClient(string uri, string indexName)
+    public ElasticsearchClient(string uri, string indexName)
     {
       if (string.IsNullOrEmpty(uri))
         throw new ArgumentNullException("uri");

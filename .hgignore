@@ -7,8 +7,8 @@ Search.txt
 elasticsearch-1.1.0/*
 DotNetCodeSearch.Core/bin/Debug/*
 DotNetCodeSearch.Core/obj/*
-DotNetCodeSearch.ElasticSearch/bin/Debug/*
-DotNetCodeSearch.ElasticSearch/obj/*
+DotNetCodeSearch.Elasticsearch/bin/Debug/*
+DotNetCodeSearch.Elasticsearch/obj/*
 DotNetCodeSearch.Mercurial/bin/Debug/*
 DotNetCodeSearch.Mercurial/obj/Debug/*
 DotNetCodeSearch.sln.ide/*

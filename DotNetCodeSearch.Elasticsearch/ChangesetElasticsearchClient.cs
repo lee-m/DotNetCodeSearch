@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 using Nest;
 
-namespace DotNetCodeSearch.ElasticSearch
+namespace DotNetCodeSearch.Elasticsearch
 {
-  public class ChangesetElasticSearchClient : ElasticSearchClient<Changeset>
+  public class ChangesetElasticsearchClient : ElasticsearchClient<Changeset>
   {
     private const string IndexName = "changesets";
 
-    public ChangesetElasticSearchClient(string uri)
+    public ChangesetElasticsearchClient(string uri)
       : base(uri, IndexName)
     {
 

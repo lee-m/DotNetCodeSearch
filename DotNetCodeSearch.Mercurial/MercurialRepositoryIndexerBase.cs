@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using DotNetCodeSearch.ElasticSearch;
+using DotNetCodeSearch.Elasticsearch;
 
 namespace DotNetCodeSearch.Mercurial
 {
   public abstract class MercurialRepositoryIndexerBase<TContentType> where TContentType : class
   {
-    private ElasticSearchClient<TContentType> mClient;
+    private ElasticsearchClient<TContentType> mClient;
 
-    public MercurialRepositoryIndexerBase(ElasticSearchClient<TContentType> client)
+    public MercurialRepositoryIndexerBase(ElasticsearchClient<TContentType> client)
     {
       mClient = client;
     }
 
     abstract public void IndexRepository(string repoPath);
 
-    protected ElasticSearchClient<TContentType> ElasticClient
+    protected ElasticsearchClient<TContentType> ElasticClient
     {
       get { return mClient; }
     }

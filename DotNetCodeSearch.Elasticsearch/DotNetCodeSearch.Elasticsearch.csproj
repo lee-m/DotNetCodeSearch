@@ -7,8 +7,8 @@
     <ProjectGuid>{2DCCCD0B-F966-436E-8C0E-68456EDC36B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotNetCodeSearch.ElasticSearch</RootNamespace>
-    <AssemblyName>DotNetCodeSearch.ElasticSearch</AssemblyName>
+    <RootNamespace>DotNetCodeSearch.Elasticsearch</RootNamespace>
+    <AssemblyName>DotNetCodeSearch.Elasticsearch</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -52,8 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Changeset.cs" />
-    <Compile Include="ChangesetElasticSearchClient.cs" />
-    <Compile Include="ElasticSearchClient.cs" />
+    <Compile Include="ChangesetElasticsearchClient.cs" />
+    <Compile Include="ElasticsearchClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

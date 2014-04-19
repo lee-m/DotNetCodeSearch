@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using DotNetCodeSearch.ElasticSearch;
+using DotNetCodeSearch.Elasticsearch;
 using DotNetCodeSearch.Mercurial;
 
 namespace DotNetCodeSearch
@@ -62,7 +62,7 @@ namespace DotNetCodeSearch
         }
 
         //TODO: contents
-        ChangesetElasticSearchClient csc = new ChangesetElasticSearchClient(opts.ServerAddress);
+        ChangesetElasticsearchClient csc = new ChangesetElasticsearchClient(opts.ServerAddress);
 
         if(opts.CreateIndices)
           csc.CreateIndex();

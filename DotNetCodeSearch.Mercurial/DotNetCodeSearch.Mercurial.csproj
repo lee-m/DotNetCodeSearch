@@ -49,9 +49,9 @@
     <Compile Include="VBSourceCodeContentIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DotNetCodeSearch.ElasticSearch\DotNetCodeSearch.ElasticSearch.csproj">
+    <ProjectReference Include="..\DotNetCodeSearch.Elasticsearch\DotNetCodeSearch.Elasticsearch.csproj">
       <Project>{2dcccd0b-f966-436e-8c0e-68456edc36b4}</Project>
-      <Name>DotNetCodeSearch.ElasticSearch</Name>
+      <Name>DotNetCodeSearch.Elasticsearch</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

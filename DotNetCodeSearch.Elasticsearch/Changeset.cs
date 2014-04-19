@@ -1,7 +1,7 @@
 ﻿using System;
 using Nest;
 
-namespace DotNetCodeSearch.ElasticSearch
+namespace DotNetCodeSearch.Elasticsearch
 {
   /// <summary>
   /// Represents details of a single changeset.

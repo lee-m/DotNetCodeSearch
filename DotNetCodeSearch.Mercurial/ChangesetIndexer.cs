@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-using DotNetCodeSearch.ElasticSearch;
+using DotNetCodeSearch.Elasticsearch;
 using Mercurial;
 
 namespace DotNetCodeSearch.Mercurial
@@ -13,7 +13,7 @@ namespace DotNetCodeSearch.Mercurial
   /// </summary>
   public class ChangesetIndexer : MercurialRepositoryIndexerBase<Changeset>
   {
-    public ChangesetIndexer(ElasticSearchClient<Changeset> client) : base(client)
+    public ChangesetIndexer(ElasticsearchClient<Changeset> client) : base(client)
     {
     }
 

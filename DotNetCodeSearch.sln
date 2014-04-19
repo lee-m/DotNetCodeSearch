@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndexerApp", "IndexerApp\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCodeSearch.Mercurial", "DotNetCodeSearch.Mercurial\DotNetCodeSearch.Mercurial.csproj", "{6730F3F6-5901-4EF6-A4F1-EDC4BEC64C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCodeSearch.ElasticSearch", "DotNetCodeSearch.ElasticSearch\DotNetCodeSearch.ElasticSearch.csproj", "{2DCCCD0B-F966-436E-8C0E-68456EDC36B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCodeSearch.Elasticsearch", "DotNetCodeSearch.Elasticsearch\DotNetCodeSearch.Elasticsearch.csproj", "{2DCCCD0B-F966-436E-8C0E-68456EDC36B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
