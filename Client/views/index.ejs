@@ -205,6 +205,9 @@
               <span ng-show="searchResults.total > 0">
                 (showing {{searchResults.hits.length}} of {{searchResults.total}} matches)
               </span>
+              <span ng-show="searchResults.total === 0">
+                (0 matches)
+              </span>
             </h3>
           </div>
 
