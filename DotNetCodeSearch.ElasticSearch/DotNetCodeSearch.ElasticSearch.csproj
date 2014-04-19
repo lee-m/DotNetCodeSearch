@@ -51,15 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Changeset.cs" />
     <Compile Include="ChangesetElasticSearchClient.cs" />
     <Compile Include="ElasticSearchClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DotNetCodeSearch.Core\DotNetCodeSearch.Core.csproj">
-      <Project>{cb8b6825-6e98-4a06-a61a-7a8d7df1f4a2}</Project>
-      <Name>DotNetCodeSearch.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

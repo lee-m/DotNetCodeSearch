@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using DotNetCodeSearch.Core;
-
 using Nest;
 
 namespace DotNetCodeSearch.ElasticSearch
@@ -35,9 +33,13 @@ namespace DotNetCodeSearch.ElasticSearch
             .String(s => s
               .Name("repository")
               .Index(FieldIndexOption.not_analyzed))
+            .Completion(c => c
+              .Name("repository_suggest"))
             .String(s => s
               .Name("branch")
               .Index(FieldIndexOption.not_analyzed))
+            .Completion(c => c
+              .Name("branch_suggest"))
             .String(s => s
               .Name("id")
               .Index(FieldIndexOption.not_analyzed))
@@ -58,6 +60,8 @@ namespace DotNetCodeSearch.ElasticSearch
                   .Store(true))))
             .String(s => s
               .Name("author"))
+            .Completion(c => c
+              .Name("author_suggest"))
             .Date(d => d
               .Name("changeDateTime")
               .Index(NonStringIndexOption.not_analyzed)))));

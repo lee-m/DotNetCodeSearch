@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-using DotNetCodeSearch.Core;
 using DotNetCodeSearch.ElasticSearch;
 using Mercurial;
 
