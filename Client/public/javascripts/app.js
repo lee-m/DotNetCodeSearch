@@ -23,16 +23,21 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     query: {
       query_string: {
         query: '',
-        default_operator: "OR"
+        default_operator: "OR",
+        fields: ["repository", "branch", "message", "message.plain^10", "author"]
       }
     },
     highlight: {
       pre_tags: ["<font color=\"#FF3333\"><em>"],
       post_tags: ["</em></font>"],
+      order: "score",
       fields: {
         author: {},
         branch: {},
-        message: {},
+        message: {
+          matched_fields: ["message", "message.plain"],
+          type: "fvh"
+        },
         repository: {}
       }
     },
@@ -54,6 +59,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     }
 
     if ($scope.changesetSearchParams.message.length > 0) {
+      fieldQueries.push('message.plain: ' + $scope.changesetSearchParams.message);
       fieldQueries.push('message: ' + $scope.changesetSearchParams.message);
     }
 

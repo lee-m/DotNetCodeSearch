@@ -22,19 +22,8 @@ namespace DotNetCodeSearch.ElasticSearch
 
     public override void CreateIndex()
     {
-      //Custom analyser for the commit message field - tokenises on whitespace
-      //and then removes english stop words
-      var messageFieldAnalyser = new CustomAnalyzer()
-      {
-        Tokenizer = "whitespace",
-        Filter = new List<string> { "lowercase", "stop" }
-      };
-      
       Client.DeleteIndex(i => i.Index(IndexName));
       Client.CreateIndex(IndexName, indx => indx
-        .Analysis(analysis => analysis
-          .Analyzers(analyser => analyser
-            .Add("message_analyser", messageFieldAnalyser)))
         .AddMapping<Changeset>(mapping => mapping
           .Type("changeset")
           .Index(IndexName)
@@ -50,12 +39,23 @@ namespace DotNetCodeSearch.ElasticSearch
               .Name("branch")
               .Index(FieldIndexOption.not_analyzed))
             .String(s => s
-              .Name("iD")
+              .Name("id")
               .Index(FieldIndexOption.not_analyzed))
-            .String(s => s
+            .MultiField(m => m
               .Name("message")
-              .IndexAnalyzer("message_analyser")
-              .SearchAnalyzer("message_analyser"))
+              .Fields(f => f
+                .String(s => s
+                  .Name("message")
+                  .IndexAnalyzer("english")
+                  .SearchAnalyzer("english")
+                  .TermVector(TermVectorOption.with_positions_offsets)
+                  .Store(true))
+                .String(s => s
+                  .Name("plain")
+                  .IndexAnalyzer("standard")
+                  .SearchAnalyzer("standard")
+                  .TermVector(TermVectorOption.with_positions_offsets)
+                  .Store(true))))
             .String(s => s
               .Name("author"))
             .Date(d => d
