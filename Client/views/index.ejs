@@ -158,14 +158,24 @@
             <dl class="dl-horizontal">
 
               <dt>Repository:</dt>
-              <dd>
-                <span ng-bind-html="hit._source.repository"></span>
-              </dd>
+              <div>
+                <dd ng-show="!hasSearchHighlight(hit, 'repository')">
+                  <span ng-bind-html="hit._source.repository"></span>
+                </dd>
+                <dd ng-hide="!hasSearchHighlight(hit, 'repository')">
+                  <span ng-bind-html="hit.highlight.repository[0]"></span>
+                </dd>
+              </div>
 
               <dt>Branch:</dt>
-              <dd>
-                <span ng-bind-html="hit._source.branch"></span>
-              </dd>
+              <div>
+                <dd ng-show="!hasSearchHighlight(hit, 'branch')">
+                  <span ng-bind-html="hit._source.branch"></span>
+                </dd>
+                <dd ng-hide="!hasSearchHighlight(hit, 'branch')">
+                  <span ng-bind-html="hit.highlight.branch[0]"></span>
+                </dd>
+              </div>
 
               <dt>Author:</dt>
               <div>
