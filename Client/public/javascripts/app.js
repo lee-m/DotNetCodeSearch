@@ -23,7 +23,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     query: {
       query_string: {
         query: '',
-        default_operator: "OR",
+        default_operator: "AND",
         fields: ["repository", "branch", "message", "message.plain^10", "author"]
       }
     },
@@ -47,7 +47,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
   $scope.searchButtonClicked = function () {
 
-    var newTemplate = $scope.changesetSearchTemplate;
+    //Make a copy of the template query object to fill out with the search params
+    var newTemplate = angular.fromJson(angular.toJson($scope.changesetSearchTemplate));
     var fieldQueries = [];
     var paramsJSON = '';
 
@@ -59,6 +60,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       fieldQueries.push('branch: ' + $scope.changesetSearchParams.branch);
     }
 
+    //Changeset messages are indexed in two different ways so need to include both copies in the query
     if ($scope.changesetSearchParams.message.length > 0) {
       fieldQueries.push('message.plain: ' + $scope.changesetSearchParams.message);
       fieldQueries.push('message: ' + $scope.changesetSearchParams.message);
@@ -71,8 +73,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     newTemplate.query.query_string.query = fieldQueries.join(' ');
     newTemplate.size = $scope.changesetSearchParams.numResults;
 
-    $scope.debug = $filter('json')(newTemplate);
-    paramsJSON = $filter('json')(newTemplate);
+    paramsJSON = angular.toJson(newTemplate);
+    $scope.debug = paramsJSON;
 
     $http.post('http://localhost:9200/_search', paramsJSON)
       .success(function (data, status, headers, config) {
