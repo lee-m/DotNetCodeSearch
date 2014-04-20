@@ -28,12 +28,6 @@ h2:first-child {
   text-align:right;
 }
 
-.search-results {
-  border:1px solid;
-  border-radius:5px;
-  background: white;
-}
-
 .panel-title {
  color: black;
 }
