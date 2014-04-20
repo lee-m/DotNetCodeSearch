@@ -38,7 +38,17 @@ h2:first-child {
  color: black;
 }
 
-.search-result-label {
-  min-width: 85px;
-  max-width: 85px;
+.col-lg-1 {
+  width: 12%;
+  font-weight: bold;
+  padding-right: 0;
+}
+
+.col-lg-11 {
+  width: 88%;
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

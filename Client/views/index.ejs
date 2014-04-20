@@ -215,55 +215,54 @@
 
           <div ng-repeat="hit in searchResults.hits">
 
-            <dl class="dl-horizontal">
+            <div class="container-fluid">
 
-              <dt>Repository:</dt>
-              <div>
-                <dd ng-show="!hasSearchHighlight(hit, 'repository')">
+              <div class="row">
+                <div class="col-lg-1 text-right">Repository:</div>
+                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'repository')">
                   <span ng-bind-html="hit._source.repository"></span>
-                </dd>
-                <dd ng-hide="!hasSearchHighlight(hit, 'repository')">
+                </div>
+                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'repository')">
                   <span ng-bind-html="hit.highlight.repository[0]"></span>
-                </dd>
+                </div>
               </div>
 
-              <dt>Branch:</dt>
-              <div>
-                <dd ng-show="!hasSearchHighlight(hit, 'branch')">
+              <div class="row">
+                <div class="col-lg-1 text-right">Branch:</div>
+                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'branch')">
                   <span ng-bind-html="hit._source.branch"></span>
-                </dd>
-                <dd ng-hide="!hasSearchHighlight(hit, 'branch')">
+                </div>
+                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'branch')">
                   <span ng-bind-html="hit.highlight.branch[0]"></span>
-                </dd>
+                </div>
               </div>
 
-              <dt>Author:</dt>
-              <div>
-                <dd ng-show="!hasSearchHighlight(hit, 'author')">
+              <div class="row">
+                <div class="col-lg-1 text-right">Author:</div>
+                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'author')">
                   <span ng-bind-html="hit._source.author"></span>
-                </dd>
-                <dd ng-hide="!hasSearchHighlight(hit, 'author')">
+                </div>
+                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'author')">
                   <span ng-bind-html="hit.highlight.author[0]"></span>
-                </dd>
+                </div>
               </div>
 
-              <dt>Date/Time:</dt>
-              <dd>{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
-
-              <dt>Message:</dt>
-              <div>
-                <dd ng-show="hasSearchHighlight(hit, 'message')">
-                  <span ng-bind-html="hit.highlight.message[0]"></span>
-                </dd>
-                <dd ng-show="!hasSearchHighlight(hit, 'message')">
-                  <span ng-bind-html="hit._source.message"></span>
-                </dd>
-
+              <div class="row">
+                <div class="col-lg-1 text-right">Date/Time:</div>
+                <div class="col-lg-8">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
               </div>
+              <div class="row">
+                <div class="col-lg-1 text-right">Message:</div>
+                <div class="col-lg-11" ng-show="hasSearchHighlight(hit, 'message')">
+                  <p style="white-space: pre-wrap;" ng-bind-html="hit.highlight.message[0]"></p>
+                </div>
+                <div class="col-lg-11" ng-show="!hasSearchHighlight(hit, 'message')">
+                  <p style="white-space: pre-wrap;" ng-bind-html="hit._source.message"></p>
+                </div>
+              </div>
+            </div>
 
-              <hr>
-
-            </dl>
+            <hr>
 
           </div>
 
