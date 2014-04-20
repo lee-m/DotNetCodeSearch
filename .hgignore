@@ -4,7 +4,7 @@ DotNetCodeSearch.sln.ide/edbres00001.jrs
 DotNetCodeSearch.sln.ide/edb.chk
 DotNetCodeSearch.sln.ide/edbres00002.jrs
 Search.txt
-elasticsearch-1.1.0/*
+elasticsearch-1.1.1/*
 DotNetCodeSearch.Core/bin/Debug/*
 DotNetCodeSearch.Core/obj/*
 DotNetCodeSearch.Elasticsearch/bin/Debug/*
