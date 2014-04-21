@@ -8,8 +8,11 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
   'use strict';
 
-  //Object to hold changeset search params entered by the user. The fields of this
-  //object are bound to the various fields in the UI
+  /**
+   * Object to hold changeset search params entered by the user. The fields of this
+   * object are bound to the various fields in the UI
+   * @type {Object}
+   */
   $scope.changesetSearchParams = {
     repository: '',
     branch: '',
@@ -18,7 +21,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     numResults: 25
   };
 
-  //'Template' search object for changesets which will highlight the hits in the message
+  /**
+   * 'Template' search object for changesets which will highlight the hits in the message
+   */
   $scope.changesetSearchTemplate = {
     query: {
       query_string: {
@@ -45,6 +50,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     size: 0
   };
 
+  /**
+   * Performs a search of the changesets index using the search parameters entered by the user.
+   */
   $scope.searchButtonClicked = function () {
 
     //Make a copy of the template query object to fill out with the search params
@@ -77,30 +85,48 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     $scope.debug = paramsJSON;
 
     $http.post('http://localhost:9200/_search', paramsJSON)
-      .success(function (data, status, headers, config) {
-        $scope.searchResults = data.hits;
-      })
-      .error(function (data, status, headers, config) {
-        $scope.queryFailedCallback(paramsJSON);
-      });
+    .success(function (data, status, headers, config) {
+      $scope.searchResults = data.hits;
+    })
+    .error(function (data, status, headers, config) {
+      $scope.queryFailedCallback(paramsJSON);
+    });
   };
 
+  /**
+   * Callback when query execution fails to ask Elasticsearch for an explanation of why it failed
+   * so that a better error message can be shown to the user.
+   * @param  {Object} searchParams A JSON object representing the query which failed.
+   */
   $scope.queryFailedCallback = function (searchParams) {
 
     //Executing the query choked so try and get an explanation of why
     $http.post('http://localhost:9200/_validate/query?explain', searchParams)
-      .success(function (data, status, headers, config) {
-        alert(data.explanations[0].error);
-      })
-      .error(function (data, status, headers, config) {
-        alert('Unknown error execting query. Please check search parameters and try again.');
-      });
+    .success(function (data, status, headers, config) {
+      alert(data.explanations[0].error);
+    })
+    .error(function (data, status, headers, config) {
+      alert('Unknown error execting query. Please check search parameters and try again.');
+    });
   };
 
+  /**
+   * Checks if a particular field has a hit highlight.
+   * @param  {Object}  hit The hit object returned by Elasticsearch containing the highlighting.
+   * @param  {[type]}  fieldName The name of the field to check for any highlighting fragments.
+   * @return {Boolean} True if a highlight fragment exist, otherwise false.
+   */
   $scope.hasSearchHighlight = function (hit, fieldName) {
     return hit.highlight.hasOwnProperty(fieldName);
   };
 
+  /**
+   * Queries the Elasticsearch server for a list of suggestions for a field based on the first
+   * few characters of the field value.
+   * @param  {string} partialVal The partial value which the user has typed so far.
+   * @param  {string} fieldName The name of the field to get suggestions for.
+   * @return {Objec} An Angular $http promise which will return the list of suggested field values.
+   */
   $scope.getSuggestionsForField = function (partialVal, fieldName) {
 
     var params = {
