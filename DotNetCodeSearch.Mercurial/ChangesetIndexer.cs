@@ -11,19 +11,19 @@ namespace DotNetCodeSearch.Mercurial
   /// <summary>
   /// 
   /// </summary>
-  public class ChangesetIndexer : MercurialRepositoryIndexerBase<Changeset>
+  public class ChangesetIndexer : MercurialRepositoryIndexerBase<DotNetCodeSearch.Elasticsearch.Changeset>
   {
-    public ChangesetIndexer(ElasticsearchClient<Changeset> client) : base(client)
+    public ChangesetIndexer(ElasticsearchClient<DotNetCodeSearch.Elasticsearch.Changeset> client) : base(client)
     {
     }
 
     public override void IndexRepository(string repoPath)
     {
-      CommandClient hgClient = new CommandClient(repoPath, null, null, null);
+      Repository repo = new Repository(repoPath);
       string repoName = new DirectoryInfo(repoPath).Name;
 
-      IEnumerable<Changeset> changes = hgClient.Log(null).Select(rev =>
-        new Changeset(repoName, rev.Branch, rev.RevisionId, rev.Message, rev.Author, rev.Date));
+      IEnumerable<DotNetCodeSearch.Elasticsearch.Changeset> changes = repo.Log().Select(rev =>
+        new DotNetCodeSearch.Elasticsearch.Changeset(repoName, rev.Branch, rev.Hash, rev.CommitMessage, rev.AuthorName, rev.Timestamp));
       ElasticClient.IndexContent(changes);
     }
   }

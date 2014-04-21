@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mercurial, Version=1.0.5216.27857, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\hglib-cli\Mercurial\bin\Debug\Mercurial.dll</HintPath>
+    <Reference Include="Mercurial.Net">
+      <HintPath>..\packages\Mercurial.Net.1.1.1.607\lib\net35-Client\Mercurial.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +46,9 @@
     <Compile Include="MercurialRepositoryIndexerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VBSourceCodeContentIndexer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetCodeSearch.Elasticsearch\DotNetCodeSearch.Elasticsearch.csproj">
