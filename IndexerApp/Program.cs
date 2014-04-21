@@ -61,18 +61,25 @@ namespace DotNetCodeSearch
           return;
         }
 
-        //TODO: contents
         ChangesetElasticsearchClient csc = new ChangesetElasticsearchClient(opts.ServerAddress);
+        SourceFileContentElasticsearchClient sfc = new SourceFileContentElasticsearchClient(opts.ServerAddress);
 
-        if(opts.CreateIndices)
+        if (opts.CreateIndices)
+        {
           csc.CreateIndex();
+          sfc.CreateIndex();
+        }
 
         if(opts.RepositoresToIndex != null)
         {
           ChangesetIndexer csi = new ChangesetIndexer(csc);
-          
+          SourceFileContentIndexer sfi = new SourceFileContentIndexer(sfc);
+
           foreach(string repo in opts.RepositoresToIndex)
+          {
             csi.IndexRepository(repo);
+            sfi.IndexRepository(repo);
+          }
         }
       }
 

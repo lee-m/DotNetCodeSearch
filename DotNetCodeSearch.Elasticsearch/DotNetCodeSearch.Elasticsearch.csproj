@@ -55,6 +55,8 @@
     <Compile Include="ChangesetElasticsearchClient.cs" />
     <Compile Include="ElasticsearchClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceFileContent.cs" />
+    <Compile Include="SourceFileContentElasticsearchClient.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

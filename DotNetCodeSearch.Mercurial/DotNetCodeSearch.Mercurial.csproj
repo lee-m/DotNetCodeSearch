@@ -45,7 +45,7 @@
     <Compile Include="ChangesetIndexer.cs" />
     <Compile Include="MercurialRepositoryIndexerBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VBSourceCodeContentIndexer.cs" />
+    <Compile Include="SourceFileContentIndexer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
