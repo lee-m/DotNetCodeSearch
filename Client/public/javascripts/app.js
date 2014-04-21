@@ -56,7 +56,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   $scope.searchButtonClicked = function () {
 
     //Make a copy of the template query object to fill out with the search params
-    var newTemplate = angular.fromJson(angular.toJson($scope.changesetSearchTemplate));
+    var newTemplate = angular.copy($scope.changesetSearchTemplate);
     var fieldQueries = [];
     var paramsJSON = '';
 
