@@ -38,29 +38,29 @@ namespace DotNetCodeSearch.Elasticsearch
                                                   "throw","to","true","try","trycast","typeof","uinteger","ulong","ushort",
                                                   "using","variant","wend","when","while","widening","with","withevents",
                                                   "writeonly","xor" };
-      
-      //Analyser which tokenises on whitespace and removes all keywords. This is indented to produce
-      //"phrase query" type tokens where multiple property/function calls appear together - i.e. it will
-      //tokenise SomeObj.SomeProperty.FunctionCall as a single token.
-      CustomAnalyzer fileContentsWhitespaceAnalyer = new CustomAnalyzer();
-      fileContentsWhitespaceAnalyer.Filter = new List<string>() { "lowercase", "vb_kw_stop" };
-      fileContentsWhitespaceAnalyer.Tokenizer = "whitespace";
 
-      //Analyser which tokenises on non-letter characters and removes all keywords. This indented to decompose 
-      //chained property access/function calls into one token per element - i.e. it will tokenise 
+      //Analyser which tokenises on whitespace and removes all keywords and english stop words. This is 
+      //indented to produce "phrase query" type tokens where multiple property/function calls appear 
+      //together - i.e. it will tokenise SomeObj.SomeProperty.FunctionCall as a single token.
+      CustomAnalyzer fileContentsStandardAnalyer = new CustomAnalyzer();
+      fileContentsStandardAnalyer.Filter = new List<string>() { "standard", "lower", "stop", "vb_kw_stop" };
+      fileContentsStandardAnalyer.Tokenizer = "standard";
+
+      //Analyser which tokenises on non-letter characters and removes all keywords and english stop words. This 
+      //is indented to decompose chained property access/function calls into one token per element - i.e. it will tokenise 
       //SomeObj.SomeProperty.FunctionCall into ["SomeObj", "SomeProperty", "FunctionCall"] tokens to allow each 
       //element to be searched for independent of where it appears within an expression.
-      CustomAnalyzer fileContentsLetterAnalyer = new CustomAnalyzer();
-      fileContentsLetterAnalyer.Filter = new List<string>() { "lowercase", "vb_kw_stop" };
-      fileContentsLetterAnalyer.Tokenizer = "letter";
+      CustomAnalyzer fileContentsSimpleAnalyer = new CustomAnalyzer();
+      fileContentsSimpleAnalyer.Filter = new List<string>() { "lowercase", "stop", "vb_kw_stop" };
+      fileContentsSimpleAnalyer.Tokenizer = "lowercase";
 
       Client.DeleteIndex(i => i.Index(IndexName));
       Client.CreateIndex(IndexName, indx => indx
         .Analysis(analysis => analysis
           .Analyzers(analyser => analyser
-            .Add("contents_whitespace_analyser", fileContentsWhitespaceAnalyer))
+            .Add("contents_standard", fileContentsStandardAnalyer))
           .Analyzers(analyser => analyser
-            .Add("contents_letter_analyser", fileContentsLetterAnalyer))
+            .Add("contents_simple", fileContentsSimpleAnalyer))
           .TokenFilters(tf => tf
             .Add("vb_kw_stop", vbKeywordsFilter)))
         .AddMapping<Changeset>(mapping => mapping
@@ -82,13 +82,13 @@ namespace DotNetCodeSearch.Elasticsearch
               .Name("contents")
               .Fields(f => f
                 .String(s => s  
-                  .Name("contents")
-                  .IndexAnalyzer("contents_whitespace_analyser")
-                  .SearchAnalyzer("contents_whitespace_analyser"))
+                  .Name("contents_simple")
+                  .IndexAnalyzer("contents_simple")
+                  .SearchAnalyzer("contents_simple"))
                 .String(s => s
-                  .Name("letter_analyser")
-                  .IndexAnalyzer("contents_letter_analyser")
-                  .SearchAnalyzer("contents_letter_analyser")))))));
+                  .Name("contents_standard")
+                  .IndexAnalyzer("contents_standard")
+                  .SearchAnalyzer("contents_standard")))))));
     }
   }
 }
