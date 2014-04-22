@@ -43,7 +43,7 @@ namespace DotNetCodeSearch.Elasticsearch
       //indented to produce "phrase query" type tokens where multiple property/function calls appear 
       //together - i.e. it will tokenise SomeObj.SomeProperty.FunctionCall as a single token.
       CustomAnalyzer fileContentsStandardAnalyer = new CustomAnalyzer();
-      fileContentsStandardAnalyer.Filter = new List<string>() { "standard", "lower", "stop", "vb_kw_stop" };
+      fileContentsStandardAnalyer.Filter = new List<string>() { "standard", "lowercase", "stop", "vb_kw_stop" };
       fileContentsStandardAnalyer.Tokenizer = "standard";
 
       //Analyser which tokenises on non-letter characters and removes all keywords and english stop words. This 
