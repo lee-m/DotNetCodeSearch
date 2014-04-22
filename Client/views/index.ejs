@@ -6,10 +6,13 @@
 
   <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/styles/vs.css' />
 
   <script src="/javascripts/angular.min.js"></script>
   <script src="/javascripts/angular-sanitize.min.js"></script>
   <script src="/javascripts/ui-bootstrap.min.js"></script>
+  <script src="/javascripts/angular-highlightjs.min.js"></script>
+  <script src="/javascripts/highlight.pack.js"></script>
   <script src="/javascripts/app.js"></script>
 
 </head>
@@ -132,7 +135,7 @@
                   <div class="input-group">
                     <span class="input-group-addon">File Contents:</span>
                     <input type="text" class="form-control" placeholder="...">
-                  </div>                  
+                  </div>
 
                   <div class="container-fluid">
 
@@ -193,10 +196,10 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               Search Results
-              <span ng-show="searchResults.total > 0">
-                (showing {{searchResults.hits.length}} of {{searchResults.total}} matches)
+              <span ng-show="searchResults.totalResults > 0">
+                (showing {{searchResults.returnedResults}} of {{searchResults.totalResults}} matches)
               </span>
-              <span ng-show="searchResults.total === 0">
+              <span ng-show="searchResults.totalResults === 0">
                 (0 matches)
               </span>
             </h3>
@@ -204,7 +207,7 @@
 
           &nbsp;
 
-          <div ng-repeat="hit in changesetSearchResults.hits">
+          <div ng-repeat="hit in searchResults.changesets.hits">
 
             <div class="container-fluid">
 
@@ -251,6 +254,51 @@
                   <p style="white-space: pre-wrap;" ng-bind-html="hit._source.message"></p>
                 </div>
               </div>
+            </div>
+
+            <hr>
+
+          </div>
+
+          <div ng-repeat="hit in searchResults.file_contents.hits">
+
+            <div class="container-fluid">
+
+              <div class="row">
+                <div class="col-lg-1 text-right">Repository:</div>
+                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'repository')">
+                  <span ng-bind-html="hit.fields.repository"></span>
+                </div>
+                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'repository')">
+                  <span ng-bind-html="hit.highlight.repository[0]"></span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-1 text-right">Branch:</div>
+                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'branch')">
+                  <span ng-bind-html="hit.fields.branch"></span>
+                </div>
+                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'branch')">
+                  <span ng-bind-html="hit.highlight.branch[0]"></span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-1 text-right">File:</div>
+                <div class="col-lg-8">
+                  <span ng-bind-html="hit.fields.file_name"></span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div ng-repeat="highlight in hit.highlight.contents">
+                    <div hljs source="highlight"></div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
             <hr>

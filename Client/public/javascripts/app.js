@@ -1,7 +1,7 @@
 /*global angular,alert*/
 
 //Create the main module and Elasticsearch client
-var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap']);
+var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs' ]);
 
 //Main controller
 codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filter) {
@@ -82,20 +82,63 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     newTemplate.size = $scope.changesetSearchParams.numResults;
 
     paramsJSON = angular.toJson(newTemplate);
-    $scope.debug = paramsJSON;
 
-    $http.post('http://localhost:9200/_search', paramsJSON)
-    .success(function (data, status, headers, config) {
-      $scope.searchResults = data.hits;
-    })
-    .error(function (data, status, headers, config) {
-      $scope.queryFailedCallback(paramsJSON);
-    });
+    $http.post('http://localhost:9200/changesets/_search', paramsJSON)
+      .success(function (data, status, headers, config) {
+
+        $scope.searchResults = {
+          changesets: {
+            hits: data.hits.hits
+          },
+          totalResults: data.hits.total,
+          returnedResults: data.hits.hits.length
+        };
+
+      }).error(function (data, status, headers, config) {
+        $scope.queryFailedCallback(paramsJSON);
+      });
   };
 
   $scope.searchContentsButtonClicked = function () {
-    alert("Search contents");
-  }
+
+    //TODO: populate this from the UI
+    var queryParams = {
+      query: {
+        bool: {
+          must: [{
+            match: {
+              contents: "AnimalRepeatRow"
+            }
+          }]
+        }
+      },
+      fields: ["branch", "file_name", "repository"],
+      highlight: {
+        fields: {
+          order: "score",
+          contents: {
+            fragment_size: 200
+          }
+        }
+      }
+    };
+
+    $http.post('http://localhost:9200/file_contents/_search', queryParams)
+      .success(function (data, status, headers, config) {
+
+        $scope.searchResults = {
+          file_contents: {
+            hits: data.hits.hits
+          },
+          totalResults: data.hits.total,
+          returnedResults: data.hits.hits.length
+        };
+
+      }).error(function (data, status, headers, config) {
+        $scope.queryFailedCallback(queryParams);
+      });
+
+  };
 
   /**
    * Callback when query execution fails to ask Elasticsearch for an explanation of why it failed
@@ -106,12 +149,12 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     //Executing the query choked so try and get an explanation of why
     $http.post('http://localhost:9200/_validate/query?explain', searchParams)
-    .success(function (data, status, headers, config) {
-      alert(data.explanations[0].error);
-    })
-    .error(function (data, status, headers, config) {
-      alert('Unknown error execting query. Please check search parameters and try again.');
-    });
+      .success(function (data, status, headers, config) {
+        alert(data.explanations[0].error);
+      })
+      .error(function (data, status, headers, config) {
+        alert('Unknown error execting query. Please check search parameters and try again.');
+      });
   };
 
   /**
