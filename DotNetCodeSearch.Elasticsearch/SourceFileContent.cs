@@ -1,4 +1,6 @@
-﻿namespace DotNetCodeSearch.Elasticsearch
+﻿using Nest;
+
+namespace DotNetCodeSearch.Elasticsearch
 {
   /// <summary>
   /// Represents a source file document in the search index.
@@ -14,7 +16,7 @@
     /// <param name="contents">Contents of the file.</param>
     public SourceFileContent(string fileName, string branch, string repo, string contents)
     {
-      FileName = FileName;
+      FileName = fileName;
       Branch = branch;
       Repository = repo;
       FileContents = contents;
@@ -24,6 +26,7 @@
     /// Name of the file.
     /// </summary>
     /// <returns></returns>
+    [ElasticProperty(Name = "file_name")]
     public string FileName
     {
       get;
@@ -34,6 +37,7 @@
     /// Branch this file exists on.
     /// </summary>
     /// <returns></returns>
+    [ElasticProperty(Name = "branch")]
     public string Branch
     {
       get;
@@ -44,6 +48,7 @@
     /// Repository this file is in.
     /// </summary>
     /// <returns></returns>
+    [ElasticProperty(Name = "repository")]
     public string Repository
     {
       get;
@@ -54,6 +59,7 @@
     /// Contents of the file.
     /// </summary>
     /// <returns></returns>
+    [ElasticProperty(Name = "contents")]
     public string FileContents
     {
       get;
