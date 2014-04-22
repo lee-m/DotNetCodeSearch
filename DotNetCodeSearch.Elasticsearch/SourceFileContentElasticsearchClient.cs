@@ -75,8 +75,6 @@ namespace DotNetCodeSearch.Elasticsearch
               .Name("branch")
               .Index(FieldIndexOption.not_analyzed))
             .String(s => s
-              .Name("author"))
-            .String(s => s
               .Name("file_name"))
             .MultiField(mf => mf
               .Name("contents")
