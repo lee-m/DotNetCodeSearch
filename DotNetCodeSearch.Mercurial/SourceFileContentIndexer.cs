@@ -21,29 +21,31 @@ namespace DotNetCodeSearch.Mercurial
       Repository repo = new Repository(repoPath);
       string repoName = new DirectoryInfo(repoPath).Name;
 
-      foreach (var branch in repo.Branches())
-      { 
-        string branchArg = string.Format("-r {0}", branch.Name);
-        ManifestCommand manifestCmd = new ManifestCommand();
-        manifestCmd.AdditionalArguments.Add(branchArg);
+      repo.Branches().AsParallel().ForAll(branch => IndexBranch(repo, repoName, branch));
+    }
 
-        var fileContent = new List<SourceFileContent>();
+    private void IndexBranch(Repository repo, string repoName, BranchHead branch)
+    {
+      string branchArg = string.Format("-r {0}", branch.Name);
+      ManifestCommand manifestCmd = new ManifestCommand();
+      manifestCmd.AdditionalArguments.Add(branchArg);
 
-        foreach(var branchFile in repo.Manifest(manifestCmd))
-        {
-          //Only interested in VB files
-          if (!Path.GetExtension(branchFile).Equals(".vb", StringComparison.OrdinalIgnoreCase))
-            continue;
+      var fileContent = new List<SourceFileContent>();
 
-          CatCommand catCmd = new CatCommand();
-          catCmd.AdditionalArguments.Add(branchArg);
-          catCmd.AdditionalArguments.Add(string.Format("\"{0}\"", branchFile));
+      foreach (var branchFile in repo.Manifest(manifestCmd))
+      {
+        //Only interested in VB files
+        if (!Path.GetExtension(branchFile).Equals(".vb", StringComparison.OrdinalIgnoreCase))
+          continue;
 
-          fileContent.Add(new SourceFileContent(branchFile, branch.Name, repoName, repo.Cat(catCmd)));
-        }
+        CatCommand catCmd = new CatCommand();
+        catCmd.AdditionalArguments.Add(branchArg);
+        catCmd.AdditionalArguments.Add(string.Format("\"{0}\"", branchFile));
 
-        ElasticClient.IndexContent(fileContent);
+        fileContent.Add(new SourceFileContent(branchFile, branch.Name, repoName, repo.Cat(catCmd)));
       }
+
+      ElasticClient.IndexContent(fileContent);
     }
   }
 }
