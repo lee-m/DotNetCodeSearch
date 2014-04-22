@@ -42,7 +42,7 @@
                            class="form-control"
                            placeholder="..."
                            ng-model="changesetSearchParams.repository"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest') | filter:$viewValue">
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">Branch:</span>
@@ -50,7 +50,7 @@
                            class="form-control"
                            placeholder="..."
                            ng-model="changesetSearchParams.branch"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest') | filter:$viewValue">
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon bg-info">Message:</span>
@@ -62,7 +62,7 @@
                            class="form-control"
                            placeholder="..."
                            ng-model="changesetSearchParams.author"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest') | filter:$viewValue">
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
                   </div>
 
                   <div class="container-fluid">
@@ -204,7 +204,7 @@
 
           &nbsp;
 
-          <div ng-repeat="hit in searchResults.hits">
+          <div ng-repeat="hit in changesetSearchResults.hits">
 
             <div class="container-fluid">
 

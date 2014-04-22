@@ -129,9 +129,10 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
    * few characters of the field value.
    * @param  {string} partialVal The partial value which the user has typed so far.
    * @param  {string} fieldName The name of the field to get suggestions for.
+   * @param {string} indexName Name of the index to query for suggestions.
    * @return {Objec} An Angular $http promise which will return the list of suggested field values.
    */
-  $scope.getSuggestionsForField = function (partialVal, fieldName) {
+  $scope.getSuggestionsForField = function (partialVal, fieldName, indexName) {
 
     var params = {
       field_suggestions: {
@@ -142,7 +143,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       }
     };
 
-    return $http.post('http://localhost:9200/_suggest', $filter('json')(params)).then(function (res) {
+    return $http.post('http://localhost:9200/' + indexName + '/_suggest', $filter('json')(params)).then(function (res) {
 
       var suggestions = [];
 
