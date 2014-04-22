@@ -53,7 +53,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   /**
    * Performs a search of the changesets index using the search parameters entered by the user.
    */
-  $scope.searchButtonClicked = function () {
+  $scope.searchChangesetsButtonClicked = function () {
 
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.changesetSearchTemplate);
@@ -92,6 +92,10 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       $scope.queryFailedCallback(paramsJSON);
     });
   };
+
+  $scope.searchContentsButtonClicked = function () {
+    alert("Search contents");
+  }
 
   /**
    * Callback when query execution fails to ask Elasticsearch for an explanation of why it failed
