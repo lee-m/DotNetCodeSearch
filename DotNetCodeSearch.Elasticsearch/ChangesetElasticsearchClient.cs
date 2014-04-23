@@ -8,16 +8,29 @@ using Nest;
 
 namespace DotNetCodeSearch.Elasticsearch
 {
+  /// <summary>
+  /// Wrapper around ElasticsearchClient to handle dealing with the changesets index.
+  /// </summary>
   public class ChangesetElasticsearchClient : ElasticsearchClient<Changeset>
   {
+    /// <summary>
+    /// Name of the index.
+    /// </summary>
     private const string IndexName = "changesets";
 
+    /// <summary>
+    /// Creates a new client pointing to the specified server.
+    /// </summary>
+    /// <param name="uri">Address of the Elasticsearch server.</param>
     public ChangesetElasticsearchClient(string uri)
       : base(uri, IndexName)
     {
 
     }
 
+    /// <summary>
+    /// Creates the index and defines any required mappings.
+    /// </summary>
     public override void CreateIndex()
     {
       Client.DeleteIndex(i => i.Index(IndexName));

@@ -10,12 +10,23 @@ using DotNetCodeSearch.Elasticsearch;
 
 namespace DotNetCodeSearch.Mercurial
 {
+  /// <summary>
+  /// Handles indexing the file contents of the files within each branch of a Mercurial repository.
+  /// </summary>
   public class SourceFileContentIndexer : MercurialRepositoryIndexerBase<SourceFileContent>
   {
+    /// <summary>
+    /// Initialise this instance to use the provided Elasticsearch client.
+    /// </summary>
+    /// <param name="client">Client instance to use for communicating with the server.</param>
     public SourceFileContentIndexer(ElasticsearchClient<SourceFileContent> client) : base(client)
     {
     }
 
+    /// <summary>
+    /// Iterates over each branch and each file in that branch and indexes the file contents.
+    /// </summary>
+    /// <param name="repoPath">Directory of a Mercurial repository to index.</param>
     public override void IndexRepository(string repoPath)
     {
       Repository repo = new Repository(repoPath);
@@ -24,6 +35,12 @@ namespace DotNetCodeSearch.Mercurial
       repo.Branches().AsParallel().ForAll(branch => IndexBranch(repo, repoName, branch));
     }
 
+    /// <summary>
+    /// Thread callback to index the contents of a particular branch on a background thread.
+    /// </summary>
+    /// <param name="repo">Handle to the repository being indexed.</param>
+    /// <param name="repoName">Name of the repostory.</param>
+    /// <param name="branch">Name of the branch being indexed.</param>
     private void IndexBranch(Repository repo, string repoName, BranchHead branch)
     {
       string branchArg = string.Format("-r {0}", branch.Name);
