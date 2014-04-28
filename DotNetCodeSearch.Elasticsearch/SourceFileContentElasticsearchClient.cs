@@ -52,54 +52,45 @@ namespace DotNetCodeSearch.Elasticsearch
                                                   "using","variant","wend","when","while","widening","with","withevents",
                                                   "writeonly","xor" };
 
-      //Analyser which tokenises on whitespace and removes all keywords and english stop words. This is 
-      //indented to produce "phrase query" type tokens where multiple property/function calls appear 
-      //together - i.e. it will tokenise SomeObj.SomeProperty.FunctionCall as a single token.
-      CustomAnalyzer fileContentsStandardAnalyer = new CustomAnalyzer();
-      fileContentsStandardAnalyer.Filter = new List<string>() { "standard", "lowercase", "stop", "vb_kw_stop" };
-      fileContentsStandardAnalyer.Tokenizer = "standard";
-
-      //Analyser which tokenises on non-letter characters and removes all keywords and english stop words. This 
-      //is indented to decompose chained property access/function calls into one token per element - i.e. it will tokenise 
-      //SomeObj.SomeProperty.FunctionCall into ["SomeObj", "SomeProperty", "FunctionCall"] tokens to allow each 
-      //element to be searched for independent of where it appears within an expression.
-      CustomAnalyzer fileContentsSimpleAnalyer = new CustomAnalyzer();
-      fileContentsSimpleAnalyer.Filter = new List<string>() { "lowercase", "stop", "vb_kw_stop" };
-      fileContentsSimpleAnalyer.Tokenizer = "lowercase";
-
+      //Analyser based on the built-in standard analyzer but which also removes VB stop words
+      CustomAnalyzer fragmentsAnalyer = new CustomAnalyzer();
+      fragmentsAnalyer.Filter = new List<string>() { "standard", "lowercase", "stop", "vb_kw_stop" };
+      fragmentsAnalyer.Tokenizer = "standard";
+      
       Client.DeleteIndex(i => i.Index(IndexName));
-      Client.CreateIndex(IndexName, indx => indx
+      var x = Client.CreateIndex(IndexName, indx => indx
         .Analysis(analysis => analysis
           .Analyzers(analyser => analyser
-            .Add("contents_standard", fileContentsStandardAnalyer))
-          .Analyzers(analyser => analyser
-            .Add("contents_simple", fileContentsSimpleAnalyer))
+            .Add("fragments_analyser", fragmentsAnalyer))
           .TokenFilters(tf => tf
             .Add("vb_kw_stop", vbKeywordsFilter)))
-        .AddMapping<Changeset>(mapping => mapping
+        .AddMapping<SourceFileContent>(mapping => mapping
           .Type("file_content")
           .Index(IndexName)
           .Enabled(true)
           .Properties(props => props
             .String(s => s
-              .Name("repository")
-              .Index(FieldIndexOption.not_analyzed))
+              .Name("file_name"))
             .String(s => s
               .Name("branch")
               .Index(FieldIndexOption.not_analyzed))
             .String(s => s
-              .Name("file_name"))
-            .MultiField(mf => mf
-              .Name("contents")
-              .Fields(f => f
-                .String(s => s  
-                  .Name("contents_simple")
-                  .IndexAnalyzer("contents_simple")
-                  .SearchAnalyzer("contents_simple"))
+              .Name("repository")
+              .Index(FieldIndexOption.not_analyzed))
+            .Boolean(b => b
+              .Name("designer_generated")
+              .Index(NonStringIndexOption.not_analyzed))
+            .NestedObject<SourceFileTokenFragment>(n => n
+              .Name("file_fragments")
+              .Properties(prop => prop
                 .String(s => s
-                  .Name("contents_standard")
-                  .IndexAnalyzer("contents_standard")
-                  .SearchAnalyzer("contents_standard")))))));
+                  .Name("fragment")
+                  .IndexAnalyzer("fragments_analyser")
+                  .SearchAnalyzer("fragments_analyser")
+                  .TermVector(TermVectorOption.with_positions_offsets))
+                .Number(num => num
+                  .Name("line_number")
+                  .Index(NonStringIndexOption.not_analyzed)))))));
     }
   }
 }

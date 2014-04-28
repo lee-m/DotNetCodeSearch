@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
+
+using DotNetCodeSearch.Elasticsearch;
 
 using Mercurial;
-using DotNetCodeSearch.Elasticsearch;
 
 namespace DotNetCodeSearch.Mercurial
 {
@@ -15,6 +16,11 @@ namespace DotNetCodeSearch.Mercurial
   /// </summary>
   public class SourceFileContentIndexer : MercurialRepositoryIndexerBase<SourceFileContent>
   {
+    /// <summary>
+    /// Maximum number of files to index in a single operation.
+    /// </summary>
+    private const int IndexBatchSize = 50;
+
     /// <summary>
     /// Initialise this instance to use the provided Elasticsearch client.
     /// </summary>
@@ -59,10 +65,42 @@ namespace DotNetCodeSearch.Mercurial
         catCmd.AdditionalArguments.Add(branchArg);
         catCmd.AdditionalArguments.Add(string.Format("\"{0}\"", branchFile));
 
-        fileContent.Add(new SourceFileContent(branchFile, branch.Name, repoName, repo.Cat(catCmd)));
+        bool designerGenerated = branchFile.EndsWith(".Designer.vb", StringComparison.InvariantCultureIgnoreCase);
+        IEnumerable<SourceFileTokenFragment> tokenFragments = GetSourceFileTokenFragments(repo.Cat(catCmd));
+
+        fileContent.Add(new SourceFileContent(branchFile, branch.Name, repoName, tokenFragments, designerGenerated));
+
+        //Attempting to index too many files in one go OOM's the server so use smaller batches
+        if (fileContent.Count == IndexBatchSize)
+        {
+          ElasticClient.IndexContent(fileContent);
+          fileContent.Clear();
+        }
       }
 
-      ElasticClient.IndexContent(fileContent);
+      if (fileContent.Any())
+        ElasticClient.IndexContent(fileContent);
     }
+
+    private IEnumerable<SourceFileTokenFragment> GetSourceFileTokenFragments(string contents)
+    {
+      SourceFileFragmentGatherer fragmentGather = new SourceFileFragmentGatherer();
+      IEnumerable<SourceFileTokenFragment> frags = fragmentGather.GetFragments(contents);
+
+      return frags;
+    }
+
+    //[Conditional("DEBUG")]
+    //private void DumpFragmentsToFile(IEnumerable<SourceFileTokenFragment> fragments)
+    //{
+    //  using (StreamWriter debugOut = new StreamWriter("FragmentsDump.txt", false))
+    //  {
+    //    foreach (var frag in fragments)
+    //    {
+    //      debugOut.WriteLine(frag.FragmentText);
+    //      debugOut.WriteLine("-------------------------------------");
+    //    }
+    //  }
+    //}
   }
 }

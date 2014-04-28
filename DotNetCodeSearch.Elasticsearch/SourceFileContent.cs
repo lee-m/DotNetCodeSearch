@@ -1,4 +1,7 @@
-﻿using Nest;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Nest;
 
 namespace DotNetCodeSearch.Elasticsearch
 {
@@ -14,12 +17,18 @@ namespace DotNetCodeSearch.Elasticsearch
     /// <param name="branch">Branch the file is in.</param>
     /// <param name="repo">Repository containing the file.</param>
     /// <param name="contents">Contents of the file.</param>
-    public SourceFileContent(string fileName, string branch, string repo, string contents)
+    /// <param name="designerGenerated">Whether the file is a designer generated file or not.</param>
+    public SourceFileContent(string fileName, 
+                             string branch, 
+                             string repo, 
+                             IEnumerable<SourceFileTokenFragment> contents, 
+                             bool designerGenerated)
     {
       FileName = fileName;
       Branch = branch;
       Repository = repo;
-      FileContents = contents;
+      FileContents = contents.ToArray();
+      DesignerGenerated = designerGenerated;
     }
 
     /// <summary>
@@ -59,11 +68,22 @@ namespace DotNetCodeSearch.Elasticsearch
     /// Contents of the file.
     /// </summary>
     /// <returns></returns>
-    [ElasticProperty(Name = "contents")]
-    public string FileContents
+    [ElasticProperty(Name = "fragments")]
+    public SourceFileTokenFragment[] FileContents
     {
       get;
       private set;
+    }
+
+    /// <summary>
+    /// Whether this file is designer generated or not.
+    /// </summary>
+    /// <returns></returns>
+    [ElasticProperty(Name = "designer_generated")]
+    public bool DesignerGenerated
+    {
+      get;
+      private set; 
     }
   }
 }
