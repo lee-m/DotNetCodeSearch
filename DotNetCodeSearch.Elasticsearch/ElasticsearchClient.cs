@@ -51,6 +51,14 @@ namespace DotNetCodeSearch.Elasticsearch
       mClient.IndexMany(content);
     }
 
+    /// <summary>
+    /// Indexes a single document.
+    /// </summary>
+    /// <param name="doc">The document to index.</param>
+    public void IndexSingleDocument(TContent doc)
+    {
+      mClient.Index(doc);
+    }
     #endregion
 
     #region Properties
