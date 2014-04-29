@@ -145,7 +145,10 @@
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">File Contents:</span>
-                    <input type="text" class="form-control" placeholder="...">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.query">
                   </div>
 
                   <div class="container-fluid">
@@ -158,13 +161,20 @@
 
                       <div class="col-md-6 text-right">
                         <label>
-                          <input type="radio" name="contents_operator" checked>AND Conditions
+                          <input type="radio"
+                                 name="changesets_operator"
+                                 checked
+                                 value="and"
+                                 ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">AND Conditions
                         </label>
                       </div>
 
                       <div class="col-md-6 text-left">
                         <label>
-                          <input type="radio" name="contents_operator">OR Conditions
+                          <input type="radio"
+                                 name="changesets_operator"
+                                 value="or"
+                                 ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">OR Conditions
                         </label>
                       </div>
 
@@ -176,7 +186,7 @@
 
                   <div class="input-group">
                     <span class="input-group-addon"># Search Results:</span>
-                    <input type="text" class="form-control" placeholder="25">
+                    <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
                   </div>
 
                   &nbsp;
@@ -277,21 +287,15 @@
 
               <div class="row">
                 <div class="col-lg-1 text-right">Repository:</div>
-                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'repository')">
+                <div class="col-lg-8">
                   <span ng-bind-html="hit.fields.repository"></span>
-                </div>
-                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'repository')">
-                  <span ng-bind-html="hit.highlight.repository[0]"></span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-lg-1 text-right">Branch:</div>
-                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'branch')">
+                <div class="col-lg-8">
                   <span ng-bind-html="hit.fields.branch"></span>
-                </div>
-                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'branch')">
-                  <span ng-bind-html="hit.highlight.branch[0]"></span>
                 </div>
               </div>
 
@@ -304,7 +308,7 @@
 
               <div class="row">
                 <div class="col-lg-12">
-                  <div ng-repeat="highlight in hit.highlight.contents">
+                  <div ng-repeat="highlight in hit.highlight.fragments track by $index">
                     <div hljs source="highlight"></div>
                   </div>
                 </div>

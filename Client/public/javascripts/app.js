@@ -29,6 +29,43 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     branch: ''
   };
 
+  $scope.fileContentsSearchTemplate = {
+
+    fields: ['branch', 'file_name', 'repository'],
+    size: 25,
+    highlight: {
+      fields: {
+        fragments: {
+          number_of_fragments: 0
+        }
+      }
+    },
+    query: {
+      filtered: {
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  fragments: {
+                    operator: 'and',
+                    query: ''
+                  }
+                }
+              }
+            ]
+          }
+        },
+        filter: {
+          bool: {
+            must: [
+            ]
+          }
+        }
+      }
+    }
+  };
+
   /**
    * 'Template' search object for changesets which will highlight the hits in the message
    */
@@ -135,29 +172,30 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
   $scope.searchContentsButtonClicked = function () {
 
-    //TODO: populate this from the UI
-    var queryParams = {
-      query: {
-        bool: {
-          must: [{
-            match: {
-              contents: "AnimalRepeatRow"
-            }
-          }]
-        }
-      },
-      fields: ["branch", "file_name", "repository"],
-      highlight: {
-        fields: {
-          order: "score",
-          contents: {
-            fragment_size: 200
-          }
-        }
-      }
-    };
+    //Make a copy of the template query object to fill out with the search params
+    var newTemplate = angular.copy($scope.fileContentsSearchTemplate);
 
-    $http.post('http://localhost:9200/file_contents/_search', queryParams)
+    if ($scope.contentsSearchFilters.branch.length > 0) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          branch: $scope.contentsSearchFilters.branch
+        }
+      });
+
+    }
+
+    if ($scope.contentsSearchFilters.repository.length > 0) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          repository: $scope.contentsSearchFilters.repository
+        }
+      });
+
+    }
+
+    $http.post('http://localhost:9200/file_contents/_search', angular.toJson(newTemplate))
       .success(function (data, status, headers, config) {
 
         $scope.searchResults = {
