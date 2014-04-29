@@ -9,14 +9,24 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   'use strict';
 
   /**
-   * Object to hold changeset search params entered by the user. The fields of this
-   * object are bound to the various fields in the UI
+   * Object to hold changeset search filters entered by the user. The fields of this
+   * object are bound to the corresponding input fields in the UI
    * @type {Object}
    */
   $scope.changesetSearchFilters = {
     repository: '',
     branch: '',
     author: ''
+  };
+
+  /**
+   * Object to hold file contents search filters entered by the user. The fields of this
+   * object are bound to the corresponding input fields in the UI
+   * @type {Object}
+   */
+  $scope.contentsSearchFilters = {
+    repository: '',
+    branch: ''
   };
 
   /**

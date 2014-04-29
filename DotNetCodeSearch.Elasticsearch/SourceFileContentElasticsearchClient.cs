@@ -74,9 +74,13 @@ namespace DotNetCodeSearch.Elasticsearch
             .String(s => s
               .Name("branch")
               .Index(FieldIndexOption.not_analyzed))
+            .Completion(c => c
+              .Name("branch_suggest"))
             .String(s => s
               .Name("repository")
               .Index(FieldIndexOption.not_analyzed))
+            .Completion(c => c
+              .Name("repository_suggest"))
             .Boolean(b => b
               .Name("designer_generated")
               .Index(NonStringIndexOption.not_analyzed))

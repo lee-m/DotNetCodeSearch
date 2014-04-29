@@ -129,11 +129,19 @@
 
                   <div class="input-group">
                     <span class="input-group-addon">Repository:</span>
-                    <input type="text" class="form-control" placeholder="...">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="contentsSearchFilters.repository"
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'file_contents') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">Branch:</span>
-                    <input type="text" class="form-control" placeholder="...">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="contentsSearchFilters.branch"
+                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'file_contents') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">File Contents:</span>

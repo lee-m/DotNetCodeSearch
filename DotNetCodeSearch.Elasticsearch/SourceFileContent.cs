@@ -26,7 +26,9 @@ namespace DotNetCodeSearch.Elasticsearch
     {
       FileName = fileName;
       Branch = branch;
+      BranchSuggest = branch;
       Repository = repo;
+      RepositorySuggest = repo;
       FileContents = contents.ToArray();
       DesignerGenerated = designerGenerated;
     }
@@ -54,11 +56,33 @@ namespace DotNetCodeSearch.Elasticsearch
     }
 
     /// <summary>
+    /// Suggester field for the branch.
+    /// </summary>
+    /// <returns></returns>
+    [ElasticProperty(Name = "branch_suggest")]
+    public string BranchSuggest
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// Repository this file is in.
     /// </summary>
     /// <returns></returns>
     [ElasticProperty(Name = "repository")]
     public string Repository
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Suggester field for the repository.
+    /// </summary>
+    /// <returns></returns>
+    [ElasticProperty(Name = "repository_suggest")]
+    public string RepositorySuggest
     {
       get;
       private set;
