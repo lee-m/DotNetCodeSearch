@@ -234,31 +234,22 @@
 
               <div class="row">
                 <div class="col-lg-1 text-right">Repository:</div>
-                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'repository')">
+                <div class="col-lg-8">
                   <span ng-bind-html="hit._source.repository"></span>
-                </div>
-                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'repository')">
-                  <span ng-bind-html="hit.highlight.repository[0]"></span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-lg-1 text-right">Branch:</div>
-                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'branch')">
+                <div class="col-lg-8">
                   <span ng-bind-html="hit._source.branch"></span>
-                </div>
-                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'branch')">
-                  <span ng-bind-html="hit.highlight.branch[0]"></span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-lg-1 text-right">Author:</div>
-                <div class="col-lg-8" ng-show="!hasSearchHighlight(hit, 'author')">
+                <div class="col-lg-8">
                   <span ng-bind-html="hit._source.author"></span>
-                </div>
-                <div class="col-lg-8" ng-hide="!hasSearchHighlight(hit, 'author')">
-                  <span ng-bind-html="hit.highlight.author[0]"></span>
                 </div>
               </div>
 
@@ -268,11 +259,8 @@
               </div>
               <div class="row">
                 <div class="col-lg-1 text-right">Message:</div>
-                <div class="col-lg-11" ng-show="hasSearchHighlight(hit, 'message')">
+                <div class="col-lg-11">
                   <p style="white-space: pre-wrap;" ng-bind-html="hit.highlight.message[0]"></p>
-                </div>
-                <div class="col-lg-11" ng-show="!hasSearchHighlight(hit, 'message')">
-                  <p style="white-space: pre-wrap;" ng-bind-html="hit._source.message"></p>
                 </div>
               </div>
             </div>

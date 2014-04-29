@@ -213,16 +213,6 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   };
 
   /**
-   * Checks if a particular field has a hit highlight.
-   * @param  {Object}  hit The hit object returned by Elasticsearch containing the highlighting.
-   * @param  {[type]}  fieldName The name of the field to check for any highlighting fragments.
-   * @return {Boolean} True if a highlight fragment exist, otherwise false.
-   */
-  $scope.hasSearchHighlight = function (hit, fieldName) {
-    return hit.highlight.hasOwnProperty(fieldName);
-  };
-
-  /**
    * Queries the Elasticsearch server for a list of suggestions for a field based on the first
    * few characters of the field value.
    * @param  {string} partialVal The partial value which the user has typed so far.
