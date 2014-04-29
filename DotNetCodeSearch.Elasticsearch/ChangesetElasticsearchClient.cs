@@ -72,7 +72,8 @@ namespace DotNetCodeSearch.Elasticsearch
                   .TermVector(TermVectorOption.with_positions_offsets)
                   .Store(true))))
             .String(s => s
-              .Name("author"))
+              .Name("author")
+              .Index(FieldIndexOption.not_analyzed))
             .Completion(c => c
               .Name("author_suggest"))
             .Date(d => d
