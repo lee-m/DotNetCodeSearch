@@ -44,7 +44,7 @@
                     <input type="text"
                            class="form-control"
                            placeholder="..."
-                           ng-model="changesetSearchParams.repository"
+                           ng-model="changesetSearchFilters.repository"
                            typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
                   </div>
                   <div class="input-group">
@@ -52,19 +52,22 @@
                     <input type="text"
                            class="form-control"
                            placeholder="..."
-                           ng-model="changesetSearchParams.branch"
+                           ng-model="changesetSearchFilters.branch"
                            typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon bg-info">Message:</span>
-                    <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchParams.message">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="..."
+                           ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">Author:</span>
                     <input type="text"
                            class="form-control"
                            placeholder="..."
-                           ng-model="changesetSearchParams.author"
+                           ng-model="changesetSearchFilters.author"
                            typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
                   </div>
 
@@ -81,8 +84,8 @@
                           <input type="radio"
                                  name="changesets_operator"
                                  checked
-                                 value="AND"
-                                 ng-model="changesetSearchTemplate.query.query_string.default_operator">AND Conditions
+                                 value="and"
+                                 ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">AND Conditions
                         </label>
                       </div>
 
@@ -90,8 +93,8 @@
                         <label>
                           <input type="radio"
                                  name="changesets_operator"
-                                 value="OR"
-                                 ng-model="changesetSearchTemplate.query.query_string.default_operator">OR Conditions
+                                 value="or"
+                                 ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">OR Conditions
                         </label>
                       </div>
 
@@ -103,7 +106,7 @@
 
                   <div class="input-group">
                     <span class="input-group-addon"># Search Results:</span>
-                    <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchParams.numResults">
+                    <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
                   </div>
 
                   &nbsp;

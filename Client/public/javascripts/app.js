@@ -13,41 +13,60 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
    * object are bound to the various fields in the UI
    * @type {Object}
    */
-  $scope.changesetSearchParams = {
+  $scope.changesetSearchFilters = {
     repository: '',
     branch: '',
-    message: '',
-    author: '',
-    numResults: 25
+    author: ''
   };
 
   /**
    * 'Template' search object for changesets which will highlight the hits in the message
    */
   $scope.changesetSearchTemplate = {
-    query: {
-      query_string: {
-        query: '',
-        default_operator: "AND",
-        fields: ["repository", "branch", "message", "message.plain^10", "author"]
-      }
-    },
+    size: '25',
     highlight: {
-      pre_tags: ["<font color=\"#FF3333\"><em>"],
-      post_tags: ["</em></font>"],
-      order: "score",
+      pre_tags: ['<font color="#FF3333"><em>'],
+      post_tags: ['</em></font>'],
+      order: 'score',
       fields: {
-        author: {},
-        branch: {},
         message: {
-          matched_fields: ["message", "message.plain"],
+          matched_fields: ['message', 'message.plain'],
           number_of_fragments: 0,
-          type: "fvh"
-        },
-        repository: {}
+          type: 'fvh'
+        }
       }
     },
-    size: 0
+    query: {
+      filtered: {
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  message: {
+                    operator: 'and',
+                    query: ''
+                  }
+                }
+              }
+            ],
+            should: [
+              {
+                match_phrase: {
+                  'message.plain': ''
+                }
+              }
+            ]
+          }
+        },
+        filter: {
+          bool: {
+            must: [
+            ]
+          }
+        }
+      }
+    }
   };
 
   /**
@@ -57,33 +76,38 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.changesetSearchTemplate);
-    var fieldQueries = [];
-    var paramsJSON = '';
 
-    if ($scope.changesetSearchParams.author.length > 0) {
-      fieldQueries.push('author: ' + $scope.changesetSearchParams.author);
+    if ($scope.changesetSearchFilters.author.length > 0) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          author: $scope.changesetSearchFilters.author
+        }
+      });
+
     }
 
-    if ($scope.changesetSearchParams.branch.length > 0) {
-      fieldQueries.push('branch: ' + $scope.changesetSearchParams.branch);
+    if ($scope.changesetSearchFilters.branch.length > 0) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          branch: $scope.changesetSearchFilters.branch
+        }
+      });
+
     }
 
-    //Changeset messages are indexed in two different ways so need to include both copies in the query
-    if ($scope.changesetSearchParams.message.length > 0) {
-      fieldQueries.push('message.plain: ' + $scope.changesetSearchParams.message);
-      fieldQueries.push('message: ' + $scope.changesetSearchParams.message);
+    if ($scope.changesetSearchFilters.repository.length > 0) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          repository: $scope.changesetSearchFilters.repository
+        }
+      });
+
     }
 
-    if ($scope.changesetSearchParams.repository.length > 0) {
-      fieldQueries.push('repository: ' + $scope.changesetSearchParams.repository);
-    }
-
-    newTemplate.query.query_string.query = fieldQueries.join(' ');
-    newTemplate.size = $scope.changesetSearchParams.numResults;
-
-    paramsJSON = angular.toJson(newTemplate);
-
-    $http.post('http://localhost:9200/changesets/_search', paramsJSON)
+    $http.post('http://localhost:9200/changesets/_search', angular.toJson(newTemplate))
       .success(function (data, status, headers, config) {
 
         $scope.searchResults = {
@@ -95,7 +119,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
         };
 
       }).error(function (data, status, headers, config) {
-        $scope.queryFailedCallback(paramsJSON);
+        //TODO: show some sort of error
       });
   };
 
@@ -135,26 +159,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
         };
 
       }).error(function (data, status, headers, config) {
-        $scope.queryFailedCallback(queryParams);
+        //TODO: show some sort of error
       });
 
-  };
-
-  /**
-   * Callback when query execution fails to ask Elasticsearch for an explanation of why it failed
-   * so that a better error message can be shown to the user.
-   * @param  {Object} searchParams A JSON object representing the query which failed.
-   */
-  $scope.queryFailedCallback = function (searchParams) {
-
-    //Executing the query choked so try and get an explanation of why
-    $http.post('http://localhost:9200/_validate/query?explain', searchParams)
-      .success(function (data, status, headers, config) {
-        alert(data.explanations[0].error);
-      })
-      .error(function (data, status, headers, config) {
-        alert('Unknown error execting query. Please check search parameters and try again.');
-      });
   };
 
   /**
