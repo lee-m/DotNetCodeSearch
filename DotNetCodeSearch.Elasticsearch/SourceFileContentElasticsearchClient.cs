@@ -58,7 +58,7 @@ namespace DotNetCodeSearch.Elasticsearch
       fragmentsAnalyer.Tokenizer = "standard";
       
       Client.DeleteIndex(i => i.Index(IndexName));
-      var x = Client.CreateIndex(IndexName, indx => indx
+      Client.CreateIndex(IndexName, indx => indx
         .Analysis(analysis => analysis
           .Analyzers(analyser => analyser
             .Add("fragments_analyser", fragmentsAnalyer))
@@ -80,17 +80,11 @@ namespace DotNetCodeSearch.Elasticsearch
             .Boolean(b => b
               .Name("designer_generated")
               .Index(NonStringIndexOption.not_analyzed))
-            .NestedObject<SourceFileTokenFragment>(n => n
-              .Name("file_fragments")
-              .Properties(prop => prop
-                .String(s => s
-                  .Name("fragment")
-                  .IndexAnalyzer("fragments_analyser")
-                  .SearchAnalyzer("fragments_analyser")
-                  .TermVector(TermVectorOption.with_positions_offsets))
-                .Number(num => num
-                  .Name("line_number")
-                  .Index(NonStringIndexOption.not_analyzed)))))));
+            .String(s => s
+              .Name("fragments")
+              .IndexAnalyzer("fragments_analyser")
+              .SearchAnalyzer("fragments_analyser")
+              .TermVector(TermVectorOption.with_positions_offsets)))));
     }
   }
 }

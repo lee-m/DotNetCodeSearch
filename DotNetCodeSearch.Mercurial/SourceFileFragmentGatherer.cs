@@ -18,17 +18,17 @@ namespace DotNetCodeSearch.Mercurial
     /// <summary>
     /// List of gathered fragments.
     /// </summary>
-    private List<SourceFileTokenFragment> mFragments;
+    private List<string> mFragments;
 
     #region Public Methods
 
     public SourceFileFragmentGatherer()
       : base(SyntaxWalkerDepth.Node)
     {
-      mFragments = new List<SourceFileTokenFragment>();
+      mFragments = new List<string>();
     }
 
-    public IEnumerable<SourceFileTokenFragment> GetFragments(string fileContents)
+    public IEnumerable<string> GetFragments(string fileContents)
     {
       SyntaxTree syntaxTree = VisualBasicSyntaxTree.ParseText(fileContents);
       CompilationUnitSyntax compilationUnit = (CompilationUnitSyntax)syntaxTree.GetRoot();
@@ -93,7 +93,7 @@ namespace DotNetCodeSearch.Mercurial
       case SyntaxKind.WhileStatement:
       case SyntaxKind.WithStatement:
         {
-          mFragments.Add(new SourceFileTokenFragment(node.ToString(), node.SpanStart));
+          mFragments.Add(node.ToString());
           break;
         }
 
@@ -133,7 +133,7 @@ namespace DotNetCodeSearch.Mercurial
       case SyntaxKind.YieldStatement:
         {
           //Not interested in child nodes
-          mFragments.Add(new SourceFileTokenFragment(node.ToString(), node.SpanStart));
+          mFragments.Add(node.ToString());
           return;
         }
 
@@ -143,7 +143,7 @@ namespace DotNetCodeSearch.Mercurial
 
           //Only interested in return statements which actually return something.
           if (returnnode.Expression != null)
-            mFragments.Add(new SourceFileTokenFragment(node.ToString(), node.SpanStart));
+            mFragments.Add(node.ToString());
 
           //Not interested in any child nodes
           return;
@@ -169,7 +169,7 @@ namespace DotNetCodeSearch.Mercurial
             bldr.AppendLine(implements.ToString());
           }
 
-          mFragments.Add(new SourceFileTokenFragment(bldr.ToString(), node.SpanStart));
+          mFragments.Add(bldr.ToString());
           break;
         }
 
@@ -186,7 +186,7 @@ namespace DotNetCodeSearch.Mercurial
             bldr.AppendLine(inherits.ToString());
           }
 
-          mFragments.Add(new SourceFileTokenFragment(bldr.ToString(), node.SpanStart));
+          mFragments.Add(bldr.ToString());
           break;
         }
       }

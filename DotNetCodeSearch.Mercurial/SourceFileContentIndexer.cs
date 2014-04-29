@@ -66,41 +66,18 @@ namespace DotNetCodeSearch.Mercurial
         catCmd.AdditionalArguments.Add(string.Format("\"{0}\"", branchFile));
 
         bool designerGenerated = branchFile.EndsWith(".Designer.vb", StringComparison.InvariantCultureIgnoreCase);
-        IEnumerable<SourceFileTokenFragment> tokenFragments = GetSourceFileTokenFragments(repo.Cat(catCmd));
+        IEnumerable<string> tokenFragments = GetSourceFileTokenFragments(repo.Cat(catCmd));
 
-        fileContent.Add(new SourceFileContent(branchFile, branch.Name, repoName, tokenFragments, designerGenerated));
-
-        //Attempting to index too many files in one go OOM's the server so use smaller batches
-        if (fileContent.Count == IndexBatchSize)
-        {
-          ElasticClient.IndexContent(fileContent);
-          fileContent.Clear();
-        }
+        ElasticClient.IndexSingleDocument(new SourceFileContent(branchFile, branch.Name, repoName, tokenFragments, designerGenerated));
       }
-
-      if (fileContent.Any())
-        ElasticClient.IndexContent(fileContent);
     }
 
-    private IEnumerable<SourceFileTokenFragment> GetSourceFileTokenFragments(string contents)
+    private IEnumerable<string> GetSourceFileTokenFragments(string contents)
     {
       SourceFileFragmentGatherer fragmentGather = new SourceFileFragmentGatherer();
-      IEnumerable<SourceFileTokenFragment> frags = fragmentGather.GetFragments(contents);
+      IEnumerable<string> frags = fragmentGather.GetFragments(contents);
 
       return frags;
     }
-
-    //[Conditional("DEBUG")]
-    //private void DumpFragmentsToFile(IEnumerable<SourceFileTokenFragment> fragments)
-    //{
-    //  using (StreamWriter debugOut = new StreamWriter("FragmentsDump.txt", false))
-    //  {
-    //    foreach (var frag in fragments)
-    //    {
-    //      debugOut.WriteLine(frag.FragmentText);
-    //      debugOut.WriteLine("-------------------------------------");
-    //    }
-    //  }
-    //}
   }
 }

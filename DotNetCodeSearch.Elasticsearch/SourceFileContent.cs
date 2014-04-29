@@ -21,7 +21,7 @@ namespace DotNetCodeSearch.Elasticsearch
     public SourceFileContent(string fileName, 
                              string branch, 
                              string repo, 
-                             IEnumerable<SourceFileTokenFragment> contents, 
+                             IEnumerable<string> contents, 
                              bool designerGenerated)
     {
       FileName = fileName;
@@ -69,7 +69,7 @@ namespace DotNetCodeSearch.Elasticsearch
     /// </summary>
     /// <returns></returns>
     [ElasticProperty(Name = "fragments")]
-    public SourceFileTokenFragment[] FileContents
+    public IEnumerable<string> FileContents
     {
       get;
       private set;
