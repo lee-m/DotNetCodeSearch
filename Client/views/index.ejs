@@ -5,6 +5,7 @@
   <title>Mercurial Code Search</title>
 
   <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/angular-toggle-switch.css' />
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel='stylesheet' href='/stylesheets/styles/vs.css' />
 
@@ -12,6 +13,7 @@
   <script src="/javascripts/angular-sanitize.min.js"></script>
   <script src="/javascripts/ui-bootstrap.min.js"></script>
   <script src="/javascripts/angular-highlightjs.min.js"></script>
+  <script src="/javascripts/angular-toggle-switch.min.js"></script>
   <script src="/javascripts/highlight.pack.js"></script>
   <script src="/javascripts/app.js"></script>
 
@@ -94,7 +96,11 @@
                                   <input type="radio" name="changesets_operator" value="or" ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">OR Conditions
                                 </label>
                               </div>
-
+                              
+                              <!--
+                              <div toggle-switch class="switch-primary" model="switchStatus"></div>
+                              -->
+                              
                             </div>
 
                             <div class="row">

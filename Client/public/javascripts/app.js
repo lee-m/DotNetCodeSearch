@@ -1,7 +1,7 @@
 /*global angular,alert*/
 
 //Create the main module and Elasticsearch client
-var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs' ]);
+var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch' ]);
 
 //Main controller
 codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filter) {
