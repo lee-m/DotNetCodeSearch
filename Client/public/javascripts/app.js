@@ -124,6 +124,11 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.changesetSearchTemplate);
 
+    //If no search size was specified, use the default
+    if (newTemplate.size.length === 0) {
+      newTemplate.size = 25;
+    }
+    
     if ($scope.changesetSearchFilters.author.length > 0) {
 
       newTemplate.query.filtered.query.bool.must.push({
@@ -175,6 +180,11 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.fileContentsSearchTemplate);
 
+    //If no search size was specified, use the default
+    if (newTemplate.size.length === 0) {
+      newTemplate.size = 25;
+    }
+    
     if ($scope.contentsSearchFilters.branch.length > 0) {
 
       newTemplate.query.filtered.query.bool.must.push({
@@ -243,5 +253,4 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     });
   };
-
 });
