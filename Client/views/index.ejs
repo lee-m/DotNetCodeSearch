@@ -19,180 +19,284 @@
 
 <body ng-controller="CodeSearchController" class="bg-default">
 
-  <header class="bg-primary">
-    <h2>Mercurial Search</h2>
-  </header>
-
   <div class="container">
 
     <div class="row">
 
-      <div class="col-md-4">
+      <div class="col-md-12">
 
         <div class="panel panel-primary">
 
-          <tabset>
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Search Options
+            </h3>
+          </div>
+
+          <tabset justified="true">
 
             <tab heading="Search Changesets">
 
-              <div class="panel panel-default">
+              <div class="container">
 
-                <div class="panel-body">
+                <div class="row">
 
-                  <div class="input-group">
-                    <span class="input-group-addon">Repository:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="changesetSearchFilters.repository"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">Branch:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="changesetSearchFilters.branch"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon bg-info">Message:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">Author:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="changesetSearchFilters.author"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
-                  </div>
+                  <div class="col-md-4">
 
-                  <div class="container-fluid">
+                    <div class="panel panel-default">
 
-                    <div class="row">
-                      &nbsp;
-                    </div>
+                      <div class="panel-body">
 
-                    <div class="row">
+                        <fieldset>
+                          <legend>Filters</legend>
+                          <div class="input-group">
+                            <span class="input-group-addon">Repository:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.repository" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
+                          </div>
+                          <div class="input-group">
+                            <span class="input-group-addon">Branch:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.branch" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
+                          </div>
+                          <div class="input-group">
+                            <span class="input-group-addon">Author:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.author" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
+                          </div>
+                        </fieldset>
 
-                      <div class="col-md-6 text-right">
-                        <label>
-                          <input type="radio"
-                                 name="changesets_operator"
-                                 checked
-                                 value="and"
-                                 ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">AND Conditions
-                        </label>
-                      </div>
-
-                      <div class="col-md-6 text-left">
-                        <label>
-                          <input type="radio"
-                                 name="changesets_operator"
-                                 value="or"
-                                 ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">OR Conditions
-                        </label>
                       </div>
 
                     </div>
 
                   </div>
 
-                  <hr>
+                  <div class="col-md-4">
 
-                  <div class="input-group">
-                    <span class="input-group-addon"># Search Results:</span>
-                    <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
+                    <div class="panel panel-default">
+
+                      <div class="panel-body">
+
+                        <fieldset>
+
+                          <legend>Options</legend>
+
+                          <div class="container-fluid">
+
+                            <div class="row">
+
+                              <div class="col-md-6 text-right">
+                                <label>
+                                  <input type="radio" name="changesets_operator" checked value="and" ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">AND Conditions
+                                </label>
+                              </div>
+
+                              <div class="col-md-6 text-left">
+                                <label>
+                                  <input type="radio" name="changesets_operator" value="or" ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">OR Conditions
+                                </label>
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                              &nbsp;
+                            </div>
+
+                            <div class="row">
+
+                              <div class="col-md-12">
+
+                                <div class="input-group">
+                                  <span class="input-group-addon"># Search Results:</span>
+                                  <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </fieldset>
+
+                      </div>
+
+                    </div>
+
                   </div>
 
-                  &nbsp;
+                  <div class="col-md-4">
 
-                  <div style="text-align:center;">
-                    <button type="button" class="btn btn-default" ng-click="searchChangesetsButtonClicked()">Search</button>
+                    <div class="panel panel-default">
+
+                      <div class="panel-body">
+
+                        <fieldset>
+                          <legend>Query</legend>
+                          <div class="input-group">
+                            <span class="input-group-addon bg-info">Message:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query">
+                          </div>
+                        </fieldset>
+
+                      </div>
+
+                    </div>
+
                   </div>
 
                 </div>
 
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <div style="text-align:center;">
+                      <button type="button" class="btn btn-default" ng-click="searchChangesetsButtonClicked()">Search Changesets</button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-12">
+                    &nbsp;
+                  </div>
+
+                </div>
+                
               </div>
 
             </tab>
 
             <tab heading="Search File Contents">
 
-              <div class="panel panel-default">
+              <div class="container">
 
-                <div class="panel-body">
+                <div class="row">
 
-                  <div class="input-group">
-                    <span class="input-group-addon">Repository:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="contentsSearchFilters.repository"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'file_contents') | filter:$viewValue">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">Branch:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="contentsSearchFilters.branch"
-                           typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'file_contents') | filter:$viewValue">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">File Contents:</span>
-                    <input type="text"
-                           class="form-control"
-                           placeholder="..."
-                           ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.query">
-                  </div>
+                  <div class="col-md-4">
 
-                  <div class="container-fluid">
+                    <div class="panel panel-default">
 
-                    <div class="row">
-                      &nbsp;
-                    </div>
+                      <div class="panel-body">
 
-                    <div class="row">
+                        <fieldset>
 
-                      <div class="col-md-6 text-right">
-                        <label>
-                          <input type="radio"
-                                 name="changesets_operator"
-                                 checked
-                                 value="and"
-                                 ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">AND Conditions
-                        </label>
-                      </div>
+                          <legend>Filters</legend>
 
-                      <div class="col-md-6 text-left">
-                        <label>
-                          <input type="radio"
-                                 name="changesets_operator"
-                                 value="or"
-                                 ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">OR Conditions
-                        </label>
+                          <div class="input-group">
+                            <span class="input-group-addon">Repository:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="contentsSearchFilters.repository" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'file_contents') | filter:$viewValue">
+                          </div>
+                          <div class="input-group">
+                            <span class="input-group-addon">Branch:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="contentsSearchFilters.branch" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'file_contents') | filter:$viewValue">
+                          </div>
+
+                        </fieldset>
+
                       </div>
 
                     </div>
 
                   </div>
 
-                  <hr>
+                  <div class="col-md-4">
 
-                  <div class="input-group">
-                    <span class="input-group-addon"># Search Results:</span>
-                    <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
+                    <div class="panel panel-default">
+
+                      <div class="panel-body">
+
+                        <fieldset>
+
+                          <legend>Options</legend>
+
+                          <div class="container-fluid">
+
+                            <div class="row">
+
+                              <div class="col-md-6 text-right">
+                                <label>
+                                  <input type="radio" name="changesets_operator" checked value="and" ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">AND Conditions
+                                </label>
+                              </div>
+
+                              <div class="col-md-6 text-left">
+                                <label>
+                                  <input type="radio" name="changesets_operator" value="or" ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">OR Conditions
+                                </label>
+                              </div>
+
+                            </div>
+
+                            <div class="row">
+                              &nbsp;
+                            </div>
+
+                            <div class="row">
+
+                              <div class="col-md-12">
+
+                                <div class="input-group">
+                                  <span class="input-group-addon"># Search Results:</span>
+                                  <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </fieldset>
+
+                      </div>
+
+                    </div>
+
                   </div>
 
-                  &nbsp;
+                  <div class="col-md-4">
 
-                  <div style="text-align:center;">
-                    <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked()">Search</button>
+                    <div class="panel panel-default">
+
+                      <div class="panel-body">
+
+                        <fieldset>
+
+                          <legend>Query</legend>
+
+                          <div class="input-group">
+                            <span class="input-group-addon">File Contents:</span>
+                            <input type="text" class="form-control" placeholder="..." ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.query">
+                          </div>
+
+                        </fieldset>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-12">
+
+                    <div style="text-align:center;">
+                      <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked()">Search File Contents</button>
+                    </div>
+
+                  </div>
+
+                </div>
+                
+                <div class="row">
+
+                  <div class="col-md-12">
+                    &nbsp;
                   </div>
 
                 </div>
@@ -203,14 +307,15 @@
 
           </tabset>
 
-          &nbsp;
-
         </div>
 
       </div>
 
-      <!-- Search results -->
-      <div class="col-md-8">
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12">
 
         <div class="panel panel-primary">
 
@@ -234,28 +339,28 @@
 
               <div class="row">
                 <div class="col-lg-1 text-right">Repository:</div>
-                <div class="col-lg-8">
+                <div class="col-lg-11">
                   <span ng-bind-html="hit._source.repository"></span>
                 </div>
               </div>
 
               <div class="row">
-                <div class="col-lg-1 text-right">Branch:</div>
-                <div class="col-lg-8">
+                <div class="col-lg-1 text-right cont-search-res-label">Branch:</div>
+                <div class="col-lg-11">
                   <span ng-bind-html="hit._source.branch"></span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-lg-1 text-right">Author:</div>
-                <div class="col-lg-8">
+                <div class="col-lg-11">
                   <span ng-bind-html="hit._source.author"></span>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-lg-1 text-right">Date/Time:</div>
-                <div class="col-lg-8">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                <div class="col-lg-11">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
               </div>
               <div class="row">
                 <div class="col-lg-1 text-right">Message:</div>
@@ -313,6 +418,8 @@
       </div>
 
     </div>
+    
+  </div>
 
 </body>
 

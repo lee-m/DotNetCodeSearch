@@ -1,8 +1,8 @@
 html,
 body,
 .container {
-  height: 90%;
-  background: #8F9DB2;
+  height: 100%;
+  width: 100%;
 }
 
 .container {
