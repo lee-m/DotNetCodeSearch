@@ -3,15 +3,6 @@
 //Create the main module and Elasticsearch client
 var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch']);
 
-//Directive used within the search highlighting
-codeSearchApp.directive('hit', function(){
-      return {
-        restrict: 'E',
-        transclude: true,
-        template: '<font color="#FF3333"><em><span ng-transclude>Test</span></em></font>'
-      };
-  });
-
 //Main controller
 codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filter) {
 
@@ -43,8 +34,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     fields: ['branch', 'file_name', 'repository'],
     size: 25,
     highlight: {
-      pre_tags: ['<hit>'],
-      post_tags: ['</hit>'],
+      pre_tags: ['<strong>'],
+      post_tags: ['</strong>'],
       fields: {
         fragments: {
           number_of_fragments: 0
@@ -83,8 +74,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   $scope.changesetSearchTemplate = {
     size: '25',
     highlight: {
-      pre_tags: ['<font color="#FF3333"><em>'],
-      post_tags: ['</em></font>'],
+      pre_tags: ['<strong>'],
+      post_tags: ['</strong>'],
       order: 'score',
       fields: {
         message: {
