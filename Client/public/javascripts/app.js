@@ -1,7 +1,16 @@
 /*global angular,alert*/
 
 //Create the main module and Elasticsearch client
-var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch' ]);
+var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch']);
+
+//Directive used within the search highlighting
+codeSearchApp.directive('hit', function(){
+      return {
+        restrict: 'E',
+        transclude: true,
+        template: '<font color="#FF3333"><em><span ng-transclude>Test</span></em></font>'
+      };
+  });
 
 //Main controller
 codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filter) {
@@ -18,7 +27,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     branch: '',
     author: ''
   };
-  
+
   /**
    * Object to hold file contents search filters entered by the user. The fields of this
    * object are bound to the corresponding input fields in the UI
@@ -34,6 +43,8 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     fields: ['branch', 'file_name', 'repository'],
     size: 25,
     highlight: {
+      pre_tags: ['<hit>'],
+      post_tags: ['</hit>'],
       fields: {
         fragments: {
           number_of_fragments: 0
@@ -135,7 +146,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     if (newTemplate.size.length === 0) {
       newTemplate.size = 25;
     }
-    
+
     if ($scope.changesetSearchFilters.author.length > 0) {
 
       newTemplate.query.filtered.query.bool.must.push({
@@ -193,12 +204,12 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     } else {
       newTemplate.query.filtered.query.bool.must[0].match.fragments.operator = 'or';
     }
-    
+
     //If no search size was specified, use the default
     if (newTemplate.size.length === 0) {
       newTemplate.size = 25;
     }
-    
+
     if ($scope.contentsSearchFilters.branch.length > 0) {
 
       newTemplate.query.filtered.query.bool.must.push({
