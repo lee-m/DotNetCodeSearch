@@ -101,49 +101,26 @@
 
                           <legend>Options</legend>
 
-                          <div class="container-fluid">
-
-                            <div class="row">
-
-                              <div class="col-md-6 text-right">
-                                <label>
-                                  <input type="radio" name="changesets_operator" checked value="and" ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">AND Conditions
-                                </label>
-                              </div>
-
-                              <div class="col-md-6 text-left">
-                                <label>
-                                  <input type="radio" name="changesets_operator" value="or" ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.operator">OR Conditions
-                                </label>
-                              </div>
-                              
-                              <!--
-                              <div toggle-switch class="switch-primary" model="switchStatus"></div>
-                              -->
-                              
+                          <div class="input-group">
+                            
+                            <span class="input-group-addon input-group-addon-contents-filter">Operator:</span>
+                            <div class="operator-box text-left">
+                              <toggle-switch model="changesetsUseANDOperator"
+                                             class="toggle-switch"
+                                             on-label="AND"
+                                             off-label="OR">
+                              <toggle-switch>
                             </div>
-
-                            <div class="row">
-                              &nbsp;
-                            </div>
-
-                            <div class="row">
-
-                              <div class="col-md-12">
-
-                                <div class="input-group">
-                                  <span class="input-group-addon"># Search Results:</span>
-                                  <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
-                                </div>
-
-                              </div>
-
-                            </div>
-
+                                
                           </div>
-
+                              
+                          <div class="input-group">
+                            <span class="input-group-addon input-group-addon-contents-filter"># Search Results:</span>
+                            <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
+                          </div>
+                              
                         </fieldset>
-
+                        
                       </div>
 
                     </div>
@@ -156,7 +133,7 @@
 
                   <div class="col-md-12">
                     <div style="text-align:center;">
-                      <button type="button" class="btn btn-default" ng-click="searchChangesetsButtonClicked()">Search Changesets</button>
+                      <button type="button" class="btn btn-default" ng-click="searchChangesetsButtonClicked(changesetsUseANDOperator)">Search Changesets</button>
                     </div>
                   </div>
 
@@ -240,45 +217,26 @@
 
                           <legend>Options</legend>
 
-                          <div class="container-fluid">
-
-                            <div class="row">
-
-                              <div class="col-md-6 text-right">
-                                <label>
-                                  <input type="radio" name="contents_operator" checked value="and" ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">AND Conditions
-                                </label>
-                              </div>
-
-                              <div class="col-md-6 text-left">
-                                <label>
-                                  <input type="radio" name="contents_operator" value="or" ng-model="fileContentsSearchTemplate.query.filtered.query.bool.must[0].match.fragments.operator">OR Conditions
-                                </label>
-                              </div>
-
+                          <div class="input-group">
+                            
+                            <span class="input-group-addon input-group-addon-contents-filter">Operator:</span>
+                            <div class="operator-box text-left">
+                              <toggle-switch model="contentsUseANDOperator"
+                                             class="toggle-switch"
+                                             on-label="AND"
+                                             off-label="OR">
+                              <toggle-switch>
                             </div>
-
-                            <div class="row">
-                              &nbsp;
-                            </div>
-
-                            <div class="row">
-
-                              <div class="col-md-12">
-
-                                <div class="input-group">
-                                  <span class="input-group-addon"># Search Results:</span>
-                                  <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
-                                </div>
-
-                              </div>
-
-                            </div>
-
+                                
+                          </div>
+                              
+                          <div class="input-group">
+                            <span class="input-group-addon input-group-addon-contents-filter"># Search Results:</span>
+                            <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
                           </div>
 
                         </fieldset>
-
+                        
                       </div>
 
                     </div>
@@ -292,7 +250,7 @@
                   <div class="col-md-12">
 
                     <div style="text-align:center;">
-                      <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked()">Search File Contents</button>
+                      <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked(contentsUseANDOperator)">Search File Contents</button>
                     </div>
 
                   </div>

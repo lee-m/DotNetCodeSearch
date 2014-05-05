@@ -18,7 +18,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     branch: '',
     author: ''
   };
-
+  
   /**
    * Object to hold file contents search filters entered by the user. The fields of this
    * object are bound to the corresponding input fields in the UI
@@ -119,10 +119,17 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
   /**
    * Performs a search of the changesets index using the search parameters entered by the user.
    */
-  $scope.searchChangesetsButtonClicked = function () {
+  $scope.searchChangesetsButtonClicked = function (useAndOperator) {
 
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.changesetSearchTemplate);
+
+    //Set the operator
+    if (useAndOperator) {
+      newTemplate.query.filtered.query.bool.must[0].match.message.operator = 'and';
+    } else {
+      newTemplate.query.filtered.query.bool.must[0].match.message.operator = 'or';
+    }
 
     //If no search size was specified, use the default
     if (newTemplate.size.length === 0) {
@@ -175,11 +182,18 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       });
   };
 
-  $scope.searchContentsButtonClicked = function () {
+  $scope.searchContentsButtonClicked = function (useAndOperator) {
 
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.fileContentsSearchTemplate);
 
+    //Set the operator
+    if (useAndOperator) {
+      newTemplate.query.filtered.query.bool.must[0].match.fragments.operator = 'and';
+    } else {
+      newTemplate.query.filtered.query.bool.must[0].match.fragments.operator = 'or';
+    }
+    
     //If no search size was specified, use the default
     if (newTemplate.size.length === 0) {
       newTemplate.size = 25;

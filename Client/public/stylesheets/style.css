@@ -28,6 +28,11 @@ h2:first-child {
   text-align:right;
 }
 
+.input-group-addon-contents-filter {
+  min-width:150px;
+  text-align:right;
+}
+
 .panel-title {
  color: black;
 }
@@ -49,4 +54,12 @@ hr {
 
 .option-panel {
   min-height: 200px;
+}
+
+.operator-box {
+  border: 1px solid lightgray;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  min-height: 38px;
+  max-height: 38px;
 }
