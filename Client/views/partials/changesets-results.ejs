@@ -1,0 +1,40 @@
+<div ng-repeat="hit in searchResults.changesets.hits">
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-lg-1 text-right">Repository:</div>
+      <div class="col-lg-11">
+        <span ng-bind-html="hit._source.repository"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1 text-right cont-search-res-label">Branch:</div>
+      <div class="col-lg-11">
+        <span ng-bind-html="hit._source.branch"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1 text-right">Author:</div>
+      <div class="col-lg-11">
+        <span ng-bind-html="hit._source.author"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1 text-right">Date/Time:</div>
+      <div class="col-lg-11">{{hit._source.changeDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-1 text-right">Message:</div>
+      <div class="col-lg-11">
+        <p style="white-space: pre-wrap;" ng-bind-html="hit.highlight.message[0]"></p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+</div>

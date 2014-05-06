@@ -1,0 +1,38 @@
+<div ng-repeat="hit in searchResults.file_contents.hits">
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-lg-1 text-right">Repository:</div>
+      <div class="col-lg-8">
+        <span ng-bind-html="hit.fields.repository"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1 text-right">Branch:</div>
+      <div class="col-lg-8">
+        <span ng-bind-html="hit.fields.branch"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-1 text-right">File:</div>
+      <div class="col-lg-8">
+        <span ng-bind-html="hit.fields.file_name"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div ng-repeat="highlight in hit.highlight.fragments track by $index">
+          <div hljs source="highlight"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+</div>
