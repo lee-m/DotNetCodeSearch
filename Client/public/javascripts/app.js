@@ -252,17 +252,23 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       field_suggestions: {
         text: partialVal,
         completion: {
-          field: fieldName
+          field: fieldName,
+          size: 100
         }
       }
     };
 
-    return $http.post('http://localhost:9200/' + indexName + '/_suggest', $filter('json')(params)).then(function (res) {
+    return $http.post('http://localhost:9200/' + indexName + '/_suggest', angular.toJson(params)).then(function (res) {
 
       var suggestions = [];
+      var partialUpper = partialVal.toUpperCase();
 
       angular.forEach(res.data.field_suggestions[0].options, function (item) {
-        suggestions.push(item.text);
+
+        if(item.text.toUpperCase().indexOf(partialUpper) === 0) {
+          suggestions.push(item.text);
+        }
+
       });
 
       return suggestions;
