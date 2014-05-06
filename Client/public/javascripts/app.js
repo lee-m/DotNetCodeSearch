@@ -187,7 +187,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
     });
   };
 
-  $scope.searchContentsButtonClicked = function (useAndOperator) {
+  $scope.searchContentsButtonClicked = function (useAndOperator, includeDesignerFiles) {
 
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.fileContentsSearchTemplate);
@@ -222,6 +222,15 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
         }
       });
 
+    }
+
+    if(includeDesignerFiles === false) {
+
+      newTemplate.query.filtered.query.bool.must.push({
+        term: {
+          designer_generated: false
+        }
+      });
     }
 
     $http.post($scope.elasticsearchURL + 'file_contents/_search', angular.toJson(newTemplate))

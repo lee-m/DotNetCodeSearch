@@ -231,6 +231,19 @@
                           </div>
 
                           <div class="input-group">
+
+                            <span class="input-group-addon input-group-addon-contents-filter">Include Designer Files:</span>
+                            <div class="operator-box text-left">
+                              <toggle-switch model="contentsIncludeDesignerFiles"
+                                             class="toggle-switch"
+                                             on-label="Yes"
+                                             off-label="No">
+                              <toggle-switch>
+                            </div>
+
+                          </div>
+
+                          <div class="input-group">
                             <span class="input-group-addon input-group-addon-contents-filter"># Search Results:</span>
                             <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
                           </div>
@@ -250,7 +263,7 @@
                   <div class="col-md-12">
 
                     <div style="text-align:center;">
-                      <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked(contentsUseANDOperator)">Search File Contents</button>
+                      <button type="button" class="btn btn-default" ng-click="searchContentsButtonClicked(contentsUseANDOperator, contentsIncludeDesignerFiles)">Search File Contents</button>
                     </div>
 
                   </div>
