@@ -1,10 +1,11 @@
-/*global angular,alert*/
+/*global angular*/
+/*jshint indent:2 */
 
 //Create the main module and Elasticsearch client
 var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch']);
 
 //Main controller
-codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filter) {
+codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
   'use strict';
 
@@ -172,8 +173,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     }
 
     $http.post($scope.elasticsearchURL + 'changesets/_search', angular.toJson(newTemplate))
-      .success(function (data, status, headers, config) {
-
+      .success(function (data) {
         $scope.searchResults = {
           changesets: {
             hits: data.hits.hits
@@ -182,9 +182,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
           returnedResults: data.hits.hits.length
         };
 
-      }).error(function (data, status, headers, config) {
+      }).error(function () {
         //TODO: show some sort of error
-      });
+    });
   };
 
   $scope.searchContentsButtonClicked = function (useAndOperator) {
@@ -225,7 +225,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
     }
 
     $http.post($scope.elasticsearchURL + 'file_contents/_search', angular.toJson(newTemplate))
-      .success(function (data, status, headers, config) {
+      .success(function (data) {
 
         $scope.searchResults = {
           file_contents: {
@@ -235,9 +235,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
           returnedResults: data.hits.hits.length
         };
 
-      }).error(function (data, status, headers, config) {
+      }).error(function () {
         //TODO: show some sort of error
-      });
+    });
 
   };
 
@@ -268,7 +268,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
       angular.forEach(res.data.field_suggestions[0].options, function (item) {
 
-        if(item.text.toUpperCase().indexOf(partialUpper) === 0) {
+        if (item.text.toUpperCase().indexOf(partialUpper) === 0) {
           suggestions.push(item.text);
         }
 
