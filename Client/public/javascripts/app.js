@@ -8,6 +8,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
   'use strict';
 
+  /** Elasticsearch server URL. */
+  $scope.elasticsearchURL = 'http://localhost:9200/';
+
   /**
    * Object to hold changeset search filters entered by the user. The fields of this
    * object are bound to the corresponding input fields in the UI
@@ -168,7 +171,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     }
 
-    $http.post('http://localhost:9200/changesets/_search', angular.toJson(newTemplate))
+    $http.post($scope.elasticsearchURL + 'changesets/_search', angular.toJson(newTemplate))
       .success(function (data, status, headers, config) {
 
         $scope.searchResults = {
@@ -221,7 +224,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
 
     }
 
-    $http.post('http://localhost:9200/file_contents/_search', angular.toJson(newTemplate))
+    $http.post($scope.elasticsearchURL + 'file_contents/_search', angular.toJson(newTemplate))
       .success(function (data, status, headers, config) {
 
         $scope.searchResults = {
@@ -258,7 +261,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $filte
       }
     };
 
-    return $http.post('http://localhost:9200/' + indexName + '/_suggest', angular.toJson(params)).then(function (res) {
+    return $http.post($scope.elasticsearchURL + indexName + '/_suggest', angular.toJson(params)).then(function (res) {
 
       var suggestions = [];
       var partialUpper = partialVal.toUpperCase();
