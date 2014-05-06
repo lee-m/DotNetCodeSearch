@@ -5,7 +5,7 @@
 var codeSearchApp = angular.module('codeSearch', ['ngSanitize', 'ui.bootstrap', 'hljs', 'toggle-switch']);
 
 //Main controller
-codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
+codeSearchApp.controller('CodeSearchController', function ($scope, $http, $modal) {
 
   'use strict';
 
@@ -280,4 +280,28 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     });
   };
+  
+  /**
+   * Shows the modal window detailing the query syntax options.
+   */
+  $scope.showQuerySyntax = function () {
+  
+    $modal.open({
+      templateUrl: 'querySyntaxTemplate.html',
+      controller: QuerySyntaxModalCtrl,
+      size: 'lg'
+    });
+  };
+  
 });
+
+/**
+ * Controller used by the query syntax modal.
+ */
+var QuerySyntaxModalCtrl = function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+};

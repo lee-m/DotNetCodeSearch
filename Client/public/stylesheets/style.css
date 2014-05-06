@@ -63,3 +63,7 @@ hr {
   min-height: 38px;
   max-height: 38px;
 }
+
+.query-op-list {
+  list-style-type: none;
+}

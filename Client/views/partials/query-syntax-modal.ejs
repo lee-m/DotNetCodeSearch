@@ -1,0 +1,20 @@
+<script type="text/ng-template" id="querySyntaxTemplate.html">
+  <div class="modal-header">
+      <h3 class="modal-title">Query Syntax</h3>
+  </div>
+  <div class="modal-body">
+    <ul class="query-op-list">
+      <li><strong>+</strong> signifies AND operation - <strong>term_a + term_b</strong></li>
+      <li><strong>|</strong> signifies OR operation - <strong>term_a | term_b</strong></li>
+      <li><strong>-</strong> negates a single token - <strong>-term</strong></li>
+      <li><strong>"</strong> wraps a number of tokens to signify a phrase - <strong>"this is a phrase"</strong></li>
+      <li><strong>*</strong> at the end of a term signifies a prefix query - <strong>partial*</strong></li>
+      <li><strong>(</strong> and <strong>)</strong> signify precedence - <strong>(term_a + term_b) | term_c</strong></li>
+      <li><strong>~N</strong> after a word signifies edit distance (fuzziness) - <strong>term~5</strong></li>
+      <li><strong>~N</strong> after a phrase signifies slop amount - <strong>"this is a phrase"~5</strong></li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
