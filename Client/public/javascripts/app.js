@@ -49,17 +49,10 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
     query: {
       filtered: {
         query: {
-          bool: {
-            must: [
-              {
-                match: {
-                  fragments: {
-                    operator: 'and',
-                    query: ''
-                  }
-                }
-              }
-            ]
+          simple_query_string: {
+            query: '',
+            fields: ['fragments'],
+            default_operator: 'and'
           }
         },
         filter: {
@@ -144,7 +137,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     if ($scope.changesetSearchFilters.author.length > 0) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           author: $scope.changesetSearchFilters.author
         }
@@ -154,7 +147,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     if ($scope.changesetSearchFilters.branch.length > 0) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           branch: $scope.changesetSearchFilters.branch
         }
@@ -164,7 +157,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     if ($scope.changesetSearchFilters.repository.length > 0) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           repository: $scope.changesetSearchFilters.repository
         }
@@ -194,9 +187,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     //Set the operator
     if (useAndOperator) {
-      newTemplate.query.filtered.query.bool.must[0].match.fragments.operator = 'and';
+      newTemplate.query.filtered.query.simple_query_string.default_operator = 'and';
     } else {
-      newTemplate.query.filtered.query.bool.must[0].match.fragments.operator = 'or';
+      newTemplate.query.filtered.query.simple_query_string.default_operator = 'or';
     }
 
     //If no search size was specified, use the default
@@ -206,7 +199,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     if ($scope.contentsSearchFilters.branch.length > 0) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           branch: $scope.contentsSearchFilters.branch
         }
@@ -216,7 +209,7 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     if ($scope.contentsSearchFilters.repository.length > 0) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           repository: $scope.contentsSearchFilters.repository
         }
@@ -224,9 +217,9 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http) {
 
     }
 
-    if(includeDesignerFiles === false) {
+    if (includeDesignerFiles === false) {
 
-      newTemplate.query.filtered.query.bool.must.push({
+      newTemplate.query.filtered.filter.bool.must.push({
         term: {
           designer_generated: false
         }
