@@ -120,6 +120,15 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $modal
    */
   $scope.searchChangesetsButtonClicked = function (useAndOperator) {
 
+    //Make sure a query has been entered
+    var changesetQueryMissing = $scope.changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query.length === 0;
+
+    if (changesetQueryMissing) {
+      $("#changeset-message-input").effect("highlight", {color:"#FFB2B2"}, 2000);
+      document.getElementById('changeset-message-input').focus();
+      return;
+    }
+    
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.changesetSearchTemplate);
 
@@ -181,7 +190,15 @@ codeSearchApp.controller('CodeSearchController', function ($scope, $http, $modal
   };
 
   $scope.searchContentsButtonClicked = function (useAndOperator, includeDesignerFiles) {
+    
+    var contentsQueryMissing = $scope.fileContentsSearchTemplate.query.filtered.query.simple_query_string.query.length === 0;
 
+    if (contentsQueryMissing) {
+      $("#contents-contents-input").effect("highlight", {color:"#FFB2B2"}, 2000);
+      document.getElementById('contents-contents-input').focus();
+      return;
+    }
+    
     //Make a copy of the template query object to fill out with the search params
     var newTemplate = angular.copy($scope.fileContentsSearchTemplate);
 
