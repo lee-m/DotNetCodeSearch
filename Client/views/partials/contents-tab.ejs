@@ -15,12 +15,22 @@
               <legend>Filters</legend>
 
               <div class="input-group">
-                <span class="input-group-addon">Repository:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="contentsSearchFilters.repository" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'file_contents') | filter:$viewValue">
+                <label class="input-group-addon" for="contents-repo-input">Repository:</label>
+                <input type="text" 
+                       id="contents-repo-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="contentsSearchFilters.repository" 
+                       typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'file_contents') | filter:$viewValue">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">Branch:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="contentsSearchFilters.branch" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'file_contents') | filter:$viewValue">
+                <label class="input-group-addon" for="contents-branch-input">Branch:</label>
+                <input type="text" 
+                       id="contents-branch-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="contentsSearchFilters.branch" 
+                       typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'file_contents') | filter:$viewValue">
               </div>
 
             </fieldset>
@@ -42,8 +52,12 @@
               <legend>Query</legend>
 
               <div class="input-group">
-                <span class="input-group-addon">File Contents:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="fileContentsSearchTemplate.query.filtered.query.simple_query_string.query">
+                <label class="input-group-addon" for="contents-contents-input">File Contents:</label>
+                <input type="text" 
+                       id="contents-contents-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="fileContentsSearchTemplate.query.filtered.query.simple_query_string.query">
               </div>
 
               <br>
@@ -80,8 +94,7 @@
 
                 <span class="input-group-addon input-group-addon-contents-filter">Operator:</span>
                 <div class="operator-box text-left">
-                  <toggle-switch model="contentsUseANDOperator" class="toggle-switch" on-label="AND" off-label="OR">
-                    <toggle-switch>
+                  <toggle-switch model="contentsUseANDOperator" class="toggle-switch" on-label="AND" off-label="OR"></toggle-switch>
                 </div>
 
               </div>
@@ -90,15 +103,14 @@
 
                 <span class="input-group-addon input-group-addon-contents-filter">Include Designer Files:</span>
                 <div class="operator-box text-left">
-                  <toggle-switch model="contentsIncludeDesignerFiles" class="toggle-switch" on-label="Yes" off-label="No">
-                    <toggle-switch>
+                  <toggle-switch model="contentsIncludeDesignerFiles" class="toggle-switch" on-label="Yes" off-label="No"></toggle-switch>
                 </div>
 
               </div>
 
               <div class="input-group">
-                <span class="input-group-addon input-group-addon-contents-filter"># Search Results:</span>
-                <input type="text" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
+                <label class="input-group-addon input-group-addon-contents-filter" for="contents-search-res-input"># Search Results:</label>
+                <input type="text" id="contents-search-res-input" class="form-control" placeholder="25" ng-model="fileContentsSearchTemplate.size">
               </div>
 
             </fieldset>

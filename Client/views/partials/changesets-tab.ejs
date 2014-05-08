@@ -13,16 +13,31 @@
             <fieldset>
               <legend>Filters</legend>
               <div class="input-group">
-                <span class="input-group-addon">Repository:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.repository" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
+                <label class="input-group-addon" for="changeset-repo-input">Repository:</label>
+                <input type="text"
+                       id="changeset-repo-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="changesetSearchFilters.repository" 
+                       typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'repository_suggest', 'changesets') | filter:$viewValue">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">Branch:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.branch" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
+                <label class="input-group-addon" for="changeset-branch-input">Branch:</label>
+                <input type="text" 
+                       id="changeset-branch-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="changesetSearchFilters.branch" 
+                       typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'branch_suggest', 'changesets') | filter:$viewValue">
               </div>
               <div class="input-group">
-                <span class="input-group-addon">Author:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchFilters.author" typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
+                <label class="input-group-addon" for="changeset-author-input">Author:</label>
+                <input type="text" 
+                       id="changeset-author-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="changesetSearchFilters.author" 
+                       typeahead="suggestion for suggestion in getSuggestionsForField($viewValue, 'author_suggest', 'changesets') | filter:$viewValue">
               </div>
             </fieldset>
 
@@ -43,8 +58,12 @@
               <legend>Query</legend>
               
               <div class="input-group">
-                <span class="input-group-addon bg-info">Message:</span>
-                <input type="text" class="form-control" placeholder="..." ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query">
+                <label class="input-group-addon bg-info" for="changeset-message-input">Message:</label>
+                <input type="text" 
+                       id="changeset-message-input"
+                       class="form-control" 
+                       placeholder="..." 
+                       ng-model="changesetSearchTemplate.query.filtered.query.bool.must[0].match.message.query">
               </div>
               
               <!--
@@ -90,8 +109,8 @@
               </div>
 
               <div class="input-group">
-                <span class="input-group-addon input-group-addon-contents-filter"># Search Results:</span>
-                <input type="text" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
+                <label class="input-group-addon input-group-addon-contents-filter" for="changeset-search-res-input"># Search Results:</label>
+                <input type="text" id="changeset-search-res-input" class="form-control" placeholder="25" ng-model="changesetSearchTemplate.size">
               </div>
 
             </fieldset>
