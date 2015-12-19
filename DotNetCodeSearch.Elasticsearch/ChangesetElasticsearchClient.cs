@@ -41,21 +41,21 @@ namespace DotNetCodeSearch.Elasticsearch
           .DateDetection(true)
           .NumericDetection(true)
           .Enabled(true)
-          .IdField(id => id.SetPath("iD"))
+          .IdField(id => id.Path("iD"))
           .Properties(props => props
             .String(s => s
               .Name("repository")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .Completion(c => c
               .Name("repository_suggest"))
             .String(s => s
               .Name("branch")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .Completion(c => c
               .Name("branch_suggest"))
             .String(s => s
               .Name("id")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .MultiField(m => m
               .Name("message")
               .Fields(f => f
@@ -63,22 +63,22 @@ namespace DotNetCodeSearch.Elasticsearch
                   .Name("message")
                   .IndexAnalyzer("english")
                   .SearchAnalyzer("english")
-                  .TermVector(TermVectorOption.with_positions_offsets)
+                  .TermVector(TermVectorOption.WithPositionsOffsets)
                   .Store(true))
                 .String(s => s
                   .Name("plain")
                   .IndexAnalyzer("standard")
                   .SearchAnalyzer("standard")
-                  .TermVector(TermVectorOption.with_positions_offsets)
+                  .TermVector(TermVectorOption.WithPositionsOffsets)
                   .Store(true))))
             .String(s => s
               .Name("author")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .Completion(c => c
               .Name("author_suggest"))
             .Date(d => d
               .Name("changeDateTime")
-              .Index(NonStringIndexOption.not_analyzed)))));
+              .Index(NonStringIndexOption.NotAnalyzed)))));
     }
   }
 }

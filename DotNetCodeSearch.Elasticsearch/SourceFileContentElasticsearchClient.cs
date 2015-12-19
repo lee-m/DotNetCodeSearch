@@ -73,22 +73,22 @@ namespace DotNetCodeSearch.Elasticsearch
               .Name("file_name"))
             .String(s => s
               .Name("branch")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .Completion(c => c
               .Name("branch_suggest"))
             .String(s => s
               .Name("repository")
-              .Index(FieldIndexOption.not_analyzed))
+              .Index(FieldIndexOption.NotAnalyzed))
             .Completion(c => c
               .Name("repository_suggest"))
             .Boolean(b => b
               .Name("designer_generated")
-              .Index(NonStringIndexOption.not_analyzed))
+              .Index(NonStringIndexOption.NotAnalyzed))
             .String(s => s
               .Name("fragments")
               .IndexAnalyzer("fragments_analyser")
               .SearchAnalyzer("fragments_analyser")
-              .TermVector(TermVectorOption.with_positions_offsets)))));
+              .TermVector(TermVectorOption.WithPositionsOffsets)))));
     }
   }
 }
