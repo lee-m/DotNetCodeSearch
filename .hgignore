@@ -18,3 +18,4 @@ IndexerApp/obj/*
 elasticsearch-net-1.0.0-beta1/*
 pageant.lnk
 *.user
+elasticsearch/*
