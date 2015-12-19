@@ -39,7 +39,7 @@ namespace DotNetCodeSearch.Mercurial
 
     public override void Visit(SyntaxNode node)
     {
-      switch (node.VisualBasicKind())
+      switch (node.Kind())
       {
       case SyntaxKind.AddressOfExpression:
       case SyntaxKind.AnonymousObjectCreationExpression:
@@ -55,7 +55,8 @@ namespace DotNetCodeSearch.Mercurial
       case SyntaxKind.DelegateFunctionStatement:
       case SyntaxKind.DelegateSubStatement:
       case SyntaxKind.DivideAssignmentStatement:
-      case SyntaxKind.DoStatement:
+      case SyntaxKind.DoWhileStatement:
+      case SyntaxKind.DoUntilStatement:
       case SyntaxKind.ElseIfStatement:
       case SyntaxKind.EqualsExpression:
       case SyntaxKind.ExponentiateAssignmentStatement:
@@ -121,7 +122,6 @@ namespace DotNetCodeSearch.Mercurial
       case SyntaxKind.InvocationExpression:
       case SyntaxKind.LabelStatement:
       case SyntaxKind.LocalDeclarationStatement:
-      case SyntaxKind.MembersImportsClause:
       case SyntaxKind.OnErrorGoToZeroStatement:
       case SyntaxKind.OnErrorGoToMinusOneStatement:
       case SyntaxKind.OnErrorGoToLabelStatement:
@@ -155,7 +155,7 @@ namespace DotNetCodeSearch.Mercurial
           ClassBlockSyntax classBlock = (ClassBlockSyntax)node;
 
           StringBuilder bldr = new StringBuilder();
-          bldr.AppendLine(classBlock.Begin.ToString());
+          bldr.AppendLine(classBlock.ClassStatement.ToString());
 
           foreach (SyntaxNode inherits in classBlock.Inherits)
           {
@@ -178,7 +178,7 @@ namespace DotNetCodeSearch.Mercurial
           InterfaceBlockSyntax interfaceBlock = (InterfaceBlockSyntax)node;
           StringBuilder bldr = new StringBuilder();
 
-          bldr.AppendLine(interfaceBlock.Begin.ToString());
+          bldr.AppendLine(interfaceBlock.InterfaceStatement.ToString());
 
           foreach (SyntaxNode inherits in interfaceBlock.Inherits)
           {
